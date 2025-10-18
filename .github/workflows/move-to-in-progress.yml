@@ -1,0 +1,134 @@
+name: Move Issue to In Progress
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  issues: write
+  pull-requests: read
+  repository-projects: write
+
+jobs:
+  move-to-in-progress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move linked issue to In Progress
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+
+            // Extract issue number from PR body
+            const issueMatch = body.match(/(?:Closes|Fixes|Resolves)\s+#(\d+)/i);
+            if (!issueMatch) {
+              console.log('No linked issue found in PR body');
+              return;
+            }
+
+            const issueNumber = parseInt(issueMatch[1]);
+            console.log(`Found linked issue: #${issueNumber}`);
+
+            // GraphQL query to find the project and move the issue
+            const query = `
+              query($owner: String!, $repo: String!, $issueNumber: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $issueNumber) {
+                    id
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project {
+                          id
+                          title
+                          field(name: "Status") {
+                            ... on ProjectV2SingleSelectField {
+                              id
+                              options {
+                                id
+                                name
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const variables = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issueNumber: issueNumber
+            };
+
+            try {
+              const result = await github.graphql(query, variables);
+              const issue = result.repository.issue;
+
+              if (!issue.projectItems.nodes.length) {
+                console.log('Issue is not in any project');
+                return;
+              }
+
+              // Get the first project item (assumes issue is in one project)
+              const projectItem = issue.projectItems.nodes[0];
+              const project = projectItem.project;
+
+              console.log(`Issue is in project: ${project.title}`);
+
+              // Find the "In Progress" status option
+              const statusField = project.field;
+              if (!statusField) {
+                console.log('Status field not found');
+                return;
+              }
+
+              const inProgressOption = statusField.options.find(
+                opt => opt.name === 'In Progress' || opt.name === 'In progress'
+              );
+
+              if (!inProgressOption) {
+                console.log('In Progress status not found. Available statuses:',
+                  statusField.options.map(o => o.name).join(', '));
+                return;
+              }
+
+              console.log(`Moving to status: ${inProgressOption.name}`);
+
+              // Update the project item status
+              const mutation = `
+                mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $valueId: String!) {
+                  updateProjectV2ItemFieldValue(
+                    input: {
+                      projectId: $projectId
+                      itemId: $itemId
+                      fieldId: $fieldId
+                      value: { singleSelectOptionId: $valueId }
+                    }
+                  ) {
+                    projectV2Item {
+                      id
+                    }
+                  }
+                }
+              `;
+
+              const updateVariables = {
+                projectId: project.id,
+                itemId: projectItem.id,
+                fieldId: statusField.id,
+                valueId: inProgressOption.id
+              };
+
+              await github.graphql(mutation, updateVariables);
+              console.log(`✅ Successfully moved issue #${issueNumber} to In Progress`);
+
+            } catch (error) {
+              console.error('Error moving issue:', error);
+              // Don't fail the workflow if this fails
+            }
