@@ -1,61 +1,71 @@
-# GitHub Workflow & Task Completion Process
+# GitHub Workflow & Phase Completion Process
 
-This document outlines the standard workflow for completing tasks in this project.
+This document outlines the standard workflow for completing phases in this project.
 
-**IMPORTANT**: This workflow MUST be followed for every task completion.
-
-## Post-Merge Workflow (After Each Task)
-
-After a PR is merged, **ALWAYS** follow these steps before starting the next task:
-
-### 1. Switch to Main Branch
-```bash
-git checkout main
-```
-
-### 2. Pull Latest Changes
-```bash
-git pull origin main
-```
-This ensures you have all merged changes from the completed task, including:
-- Code changes from the merged PR
-- Updated PROGRESS.md (via GitHub automation)
-- Any other merged commits
-
-### 3. Create New Feature Branch
-```bash
-git checkout -b task-{number}-{short-description}
-```
-
-**Examples:**
-- `git checkout -b task-04-create-project-structure`
-- `git checkout -b task-05-configure-electron-builder`
-- `git checkout -b task-10-implement-sqlite-schema`
-
-**Branch naming convention:**
-- Always use `task-{number}` prefix
-- Use kebab-case for description
-- Keep description short (3-5 words max)
+**IMPORTANT**: This workflow MUST be followed for every phase completion.
 
 ---
 
-## Task Completion Workflow
+## Overview: One PR Per Phase
 
-### 1. Create Feature Branch
+This project uses a **phase-based workflow** where each phase (containing multiple tasks) is completed in a single branch and submitted as one pull request.
+
+**Example for Phase 4:**
+- Branch: `phase-4-electron-main-process`
+- Tasks: 14, 15, 16, 17, 18 (5 tasks total)
+- Commits: One commit per task (5 commits)
+- PR: One PR that closes all 5 issues
+
+**Benefits:**
+- Fewer PRs to review and merge
+- Cohesive changes grouped by phase
+- Easier to test complete features
+- Cleaner git history
+
+---
+
+## Phase Workflow
+
+### 1. Start New Phase
+
+After previous phase is merged (or when starting fresh):
+
 ```bash
-git checkout -b task-{number}-{short-description}
+# Switch to main and pull latest
+git checkout main
+git pull origin main
+
+# Create phase branch
+git checkout -b phase-{number}-{phase-name}
 ```
 
-### 2. Implement the Task
+**Examples:**
+- `git checkout -b phase-4-electron-main-process`
+- `git checkout -b phase-5-react-ui-components`
+- `git checkout -b phase-6-timer-logic-integration`
+
+**Branch naming convention:**
+- Use `phase-{number}` prefix
+- Add descriptive phase name from PROGRESS.md
+- Use kebab-case
+
+---
+
+### 2. Implement Tasks Iteratively
+
+For each task in the phase:
+
+#### a) Implement the Task
 - Follow acceptance criteria in `contexts/tasks/phase{X}-{number}-*.md`
 - Test changes thoroughly
 - Ensure `npm run dev` still works
 
-### 3. Commit Changes
+#### b) Commit the Task
 Use conventional commit format with issue reference:
+
 ```bash
 git add .
-git commit -m "{type}: {description} (fixes #{issue-number})"
+git commit -m "{type}: {task description} (fixes #{issue-number})"
 ```
 
 **Commit message types:**
@@ -69,79 +79,124 @@ git commit -m "{type}: {description} (fixes #{issue-number})"
 
 **Examples:**
 ```bash
-git commit -m "feat: create project directory structure (fixes #4)"
-git commit -m "fix: resolve TypeScript error in main.ts (fixes #12)"
-git commit -m "chore: update dependencies (fixes #20)"
+git commit -m "feat: implement main.ts app initialization (fixes #14)"
+git commit -m "feat: create menu bar tray with positioning (fixes #15)"
+git commit -m "feat: implement preload IPC bridge (fixes #16)"
 ```
 
 **IMPORTANT:** Always include `(fixes #{issue-number})` to auto-close the issue when PR merges.
 
-### 4. Push Branch
+#### c) Continue to Next Task
+- Stay on the same branch
+- Implement next task in the phase
+- Commit when complete
+- Repeat until all phase tasks are done
+
+---
+
+### 3. Push Branch (Can Push Anytime)
+
+You can push your branch at any time to back up work:
+
 ```bash
 git push -u origin HEAD
 ```
 
 Or explicitly:
 ```bash
-git push -u origin task-{number}-{description}
+git push origin phase-{number}-{description}
 ```
 
-### 5. Create Pull Request
+**Note:** Pushing does NOT create a PR. You create the PR manually when ready.
+
+---
+
+### 4. Create Pull Request (When Phase Complete)
+
+Only create PR after **ALL tasks in the phase** are complete:
+
 ```bash
-gh pr create --title "Task {number}: {description}" --body "Closes #{issue-number}
+gh pr create --title "Phase {number}: {phase name}" --body "Closes #{issue1}, Closes #{issue2}, ...
+
+## Phase Summary
+Brief description of what this phase accomplishes
+
+## Tasks Completed
+- [x] Task {N}: {description} (#{issue})
+- [x] Task {N+1}: {description} (#{issue})
+- [x] Task {N+2}: {description} (#{issue})
 
 ## Changes
-- List key changes here
-- One change per line
-
-## Acceptance Criteria
-- [x] Criterion 1 from task file
-- [x] Criterion 2 from task file
-- [x] All criteria met
+- Key change 1
+- Key change 2
+- Key change 3
 
 ## Testing
-- Describe how you tested this
-- E.g., 'npm run dev works without errors'
+- How you tested the phase
+- E.g., 'npm run dev works, all features functional'
 "
 ```
 
-**Example:**
+**Example for Phase 4:**
 ```bash
-gh pr create --title "Task 4: Create project directory structure" --body "Closes #4
+gh pr create --title "Phase 4: Electron Main Process" --body "Closes #14, Closes #15, Closes #16, Closes #17, Closes #18
+
+## Phase Summary
+Implements the complete Electron main process including app initialization, menu bar integration, IPC communication, keyboard shortcuts, and dynamic tray updates.
+
+## Tasks Completed
+- [x] Task 14: Implement main.ts (app initialization) (#14)
+- [x] Task 15: Create menuBar.ts (tray icon & popover) (#15)
+- [x] Task 16: Implement preload.ts (IPC bridge) (#16)
+- [x] Task 17: Configure global keyboard shortcuts (#17)
+- [x] Task 18: Implement dynamic tray title updates (#18)
 
 ## Changes
-- Created electron/services/ directory
-- Created src/features/ with Timer, Tasks, Projects, Reports subdirectories
-- Added placeholder files for main modules
-- Created basic App.tsx and main.tsx
-
-## Acceptance Criteria
-- [x] All directories exist as per project structure
-- [x] Placeholder files created for main modules
-- [x] Directory structure matches project_init.md specification
-- [x] npm run dev still works after restructuring
+- Complete main process with single instance lock and macOS behavior
+- Menu bar tray with icon and popover positioning
+- IPC bridge exposing timer, config, and system APIs
+- Global keyboard shortcut for quick timer toggle
+- Dynamic tray title showing elapsed time
 
 ## Testing
-- Verified directory structure with tree command
-- Ran npm run dev successfully
+- Verified menu bar app behavior (hidden from dock)
+- Tested tray icon click and popover positioning
+- Confirmed IPC communication works from renderer
+- Tested global shortcuts
+- Verified tray title updates with running timer
+- All TypeScript compilation successful
+- npm run dev works without errors
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
 "
 ```
 
-### 6. Verify PR Links to Issue
-- PR description should show "Closes #{issue-number}"
-- Issue page should show linked PR
+**IMPORTANT:** List all issue numbers in the format `Closes #14, Closes #15, ...` so GitHub auto-closes all issues when PR merges.
+
+---
+
+### 5. Verify PR Links to Issues
+
+- PR description should show all `Closes #{issue-number}` references
+- Each issue page should show linked PR
 - GitHub Actions workflows should run automatically
 
-### 7. Review and Merge
+---
+
+### 6. Review and Merge
+
 - Wait for any CI checks to pass
 - Review the changes
-- Merge the PR (GitHub will auto-close the linked issue)
+- Merge the PR (GitHub will auto-close ALL linked issues)
 - Branch will auto-delete after merge
 
-### 8. Repeat: Start Next Task
-- Go to **Post-Merge Workflow** (top of this file)
-- Switch to main, pull latest, create new branch
-- Begin next task
+---
+
+### 7. Repeat: Start Next Phase
+
+- Go to **Step 1: Start New Phase**
+- Switch to main, pull latest, create new phase branch
+- Begin first task of next phase
 
 ---
 
@@ -150,80 +205,123 @@ gh pr create --title "Task 4: Create project directory structure" --body "Closes
 The following automations are configured via workflows:
 
 ### On PR Open
-- **move-to-in-progress.yml**: Moves linked issue to "In Progress" on project board
-- **issue-automation.yml**: Adds "in-progress" label, posts work-in-progress comment
+- **move-to-in-progress.yml**: Moves linked issues to "In Progress" on project board
+- **issue-automation.yml**: Adds "in-progress" label to all linked issues
 
 ### On PR Merge
-- **issue-automation.yml**: Auto-closes linked issue, adds "completed" label
-- **update-progress.yml**: Updates PROGRESS.md to mark task as complete
+- **issue-automation.yml**: Auto-closes all linked issues, adds "completed" label
+- **update-progress.yml**: Updates PROGRESS.md to mark tasks as complete
 
 ### On Issue Creation
 - **issue-automation.yml**: Auto-adds phase labels (phase-1, phase-2, etc.)
 
 ---
 
-## Task Completion Checklist
+## Phase Completion Checklist
 
-Before pushing and creating a PR, verify:
+Before creating a PR, verify:
 
-- [ ] All acceptance criteria met (check `contexts/tasks/phase{X}-{number}-*.md`)
-- [ ] Code tested and working
+- [ ] **All tasks in phase complete** (check `contexts/tasks/` files)
+- [ ] One commit per task with proper format
+- [ ] Each commit includes `(fixes #{issue-number})`
+- [ ] All code tested and working
 - [ ] `npm run dev` runs without errors
 - [ ] No TypeScript errors
-- [ ] Feature branch created with correct naming
-- [ ] Changes committed with conventional commit message
-- [ ] Commit message includes `(fixes #{issue-number})`
+- [ ] PROGRESS.md updated for all tasks in phase
+- [ ] Phase branch created with correct naming
 - [ ] Branch pushed to GitHub
-- [ ] PR created with proper description
-- [ ] PR links to issue (shows "Closes #X")
-- [ ] Ready for review/merge
-
-## After PR is Merged
-
-**CRITICAL STEP**: Before starting the next task:
-
-1. Switch to main: `git checkout main`
-2. Pull latest changes: `git pull origin main`
-3. Create new feature branch: `git checkout -b task-{next-number}-{description}`
-
-What happens automatically when PR is merged:
-- Issue auto-closes (via "Closes #X" in PR body)
-- Branch auto-deletes (GitHub setting)
-- GitHub project board updates (via automation)
-- PROGRESS.md updates (via `.github/workflows/update-progress.yml`)
+- [ ] Ready to create PR with all issue references
 
 ---
 
 ## Common Commands Quick Reference
 
 ```bash
-# Start new task (after PR merge)
+# Start new phase
 git checkout main
 git pull origin main
-git checkout -b task-{number}-{description}
+git checkout -b phase-{number}-{name}
 
-# Commit and push
+# After each task
 git add .
-git commit -m "feat: {description} (fixes #{issue})"
+git commit -m "feat: {task description} (fixes #{issue})"
+
+# Backup work (optional, can do anytime)
 git push -u origin HEAD
 
-# Create PR
-gh pr create --title "Task {number}: {description}" --body "Closes #{issue}..."
+# When all phase tasks complete
+gh pr create --title "Phase {N}: {name}" --body "Closes #X, Closes #Y..."
 
 # Check status
 git status
-git branch
+git log --oneline
 gh pr list
 gh issue list
 ```
 
 ---
 
+## Example: Phase 4 Complete Workflow
+
+```bash
+# 1. Start phase
+git checkout main
+git pull origin main
+git checkout -b phase-4-electron-main-process
+
+# 2. Task 14
+# ... implement task 14 ...
+git add .
+git commit -m "feat: implement main.ts app initialization (fixes #14)"
+
+# 3. Task 15
+# ... implement task 15 ...
+git add .
+git commit -m "feat: create menu bar tray with positioning (fixes #15)"
+
+# 4. Task 16
+# ... implement task 16 ...
+git add .
+git commit -m "feat: implement preload IPC bridge (fixes #16)"
+
+# 5. Task 17
+# ... implement task 17 ...
+git add .
+git commit -m "feat: configure global keyboard shortcuts (fixes #17)"
+
+# 6. Task 18
+# ... implement task 18 ...
+git add .
+git commit -m "feat: implement dynamic tray title updates (fixes #18)"
+
+# 7. Push and create PR
+git push -u origin phase-4-electron-main-process
+gh pr create --title "Phase 4: Electron Main Process" --body "Closes #14, Closes #15, Closes #16, Closes #17, Closes #18..."
+```
+
+---
+
 ## Notes
 
-- **Always** pull from main before creating a new branch
+- **One branch per phase** containing all phase tasks
+- **One commit per task** with clear conventional commit messages
+- **One PR per phase** that closes all task issues
 - **Never** commit directly to main
-- **Always** link PRs to issues using "Closes #X" or "Fixes #X"
+- **Always** pull from main before creating a new phase branch
+- **Always** link PRs to ALL phase issues using "Closes #X, Closes #Y, ..."
 - Use descriptive commit messages that explain **what** and **why**
-- Keep commits atomic (one logical change per commit)
-- Push early and often to avoid losing work
+- Keep commits atomic (one task per commit)
+- Push branch as needed to avoid losing work (doesn't auto-create PR)
+- Only create PR when entire phase is complete and tested
+
+---
+
+## Migration from Task-Based Workflow
+
+**Previous workflow:** One PR per task (Task 14 → PR, Task 15 → PR, etc.)
+**New workflow:** One PR per phase (Phase 4 with Tasks 14-18 → One PR)
+
+If you have incomplete tasks from a previous PR:
+1. Complete remaining tasks on the phase branch
+2. Make one commit per task
+3. Create one final PR for the complete phase
