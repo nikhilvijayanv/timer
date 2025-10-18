@@ -1,7 +1,8 @@
 {
   "name": "timer",
+  "productName": "Timer",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
@@ -11,7 +12,8 @@
     "build:dir": "tsc && vite build && electron-builder --dir",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "electron-rebuild -f -w better-sqlite3"
+    "postinstall": "electron-rebuild -f -w better-sqlite3",
+    "quit": "killall Electron || true"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
