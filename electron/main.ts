@@ -4,6 +4,9 @@ import { fileURLToPath } from 'url';
 import { initDatabase, closeDatabase } from './database';
 import { initConfig } from './config';
 import { createMenuBarTray, destroyTray } from './menuBar';
+import { registerIPCHandlers } from './ipcHandlers';
+import { registerGlobalShortcut, unregisterAllShortcuts } from './shortcuts';
+import { startTrayUpdates, stopTrayUpdates } from './trayUpdater';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -66,11 +69,23 @@ app.whenReady().then(() => {
   const config = initConfig();
   initDatabase();
 
+  // Register IPC handlers
+  registerIPCHandlers();
+
+  // Register global shortcut
+  const shortcutRegistered = registerGlobalShortcut();
+  if (!shortcutRegistered) {
+    console.warn('Could not register global shortcut. Check config.json');
+  }
+
   // Create window
   mainWindow = createWindow();
 
   // Create menu bar tray
   createMenuBarTray(mainWindow);
+
+  // Start tray title updates
+  startTrayUpdates();
 
   console.log('App ready. Config:', config);
 });
@@ -83,6 +98,8 @@ app.on('window-all-closed', (e) => {
 // Quit app completely
 app.on('before-quit', () => {
   willQuitApp = true;
+  stopTrayUpdates();
+  unregisterAllShortcuts();
   closeDatabase();
   destroyTray();
 });
