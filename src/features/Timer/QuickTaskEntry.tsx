@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Play } from "@/components/ui/icons";
+import { useSound } from "@/hooks/useSound";
 
 interface QuickTaskEntryProps {
   onStart?: () => void;
@@ -11,6 +12,7 @@ interface QuickTaskEntryProps {
 export function QuickTaskEntry({ onStart }: QuickTaskEntryProps) {
   const [taskName, setTaskName] = useState("");
   const [isStarting, setIsStarting] = useState(false);
+  const { playStart } = useSound();
 
   async function handleStart() {
     if (!taskName.trim()) {
@@ -20,6 +22,7 @@ export function QuickTaskEntry({ onStart }: QuickTaskEntryProps) {
     setIsStarting(true);
     try {
       await window.electron.timer.start(taskName.trim());
+      playStart();
       setTaskName("");
       onStart?.();
     } catch (error) {

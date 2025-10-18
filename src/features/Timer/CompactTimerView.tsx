@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Pause, Clock } from "@/components/ui/icons";
 import type { TimeEntry } from "@/types/electron";
+import { useSound } from "@/hooks/useSound";
 
 interface CompactTimerViewProps {
   onStop?: () => void;
@@ -11,10 +12,20 @@ interface CompactTimerViewProps {
 export function CompactTimerView({ onStop }: CompactTimerViewProps) {
   const [activeTimer, setActiveTimer] = useState<TimeEntry | null>(null);
   const [elapsedTime, setElapsedTime] = useState<string>("00:00:00");
+  const { playStop } = useSound();
 
   // Fetch active timer on mount
   useEffect(() => {
     loadActiveTimer();
+
+    // Listen for timer updates from main process
+    const unsubscribe = window.electron.on('timer:updated', () => {
+      loadActiveTimer();
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // Update elapsed time every second
@@ -51,6 +62,7 @@ export function CompactTimerView({ onStop }: CompactTimerViewProps) {
 
   async function handleStop() {
     await window.electron.timer.stop();
+    playStop();
     setActiveTimer(null);
     onStop?.();
   }
