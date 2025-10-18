@@ -15,7 +15,7 @@ export default defineConfig({
           build: {
             outDir: 'dist-electron',
             rollupOptions: {
-              external: ['better-sqlite3'] // Will add in Task 03
+              external: ['electron', 'better-sqlite3']
             }
           }
         }
