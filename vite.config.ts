@@ -40,4 +40,4 @@ export default defineConfig({
     }
   },
   base: './' // Important for Electron file:// protocol
-})
+});
