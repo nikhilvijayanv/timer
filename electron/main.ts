@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { initDatabase, closeDatabase } from './database';
 import { initConfig } from './config';
 import { createMenuBarTray, destroyTray } from './menuBar';
+import { registerIPCHandlers } from './ipcHandlers';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -65,6 +66,9 @@ app.whenReady().then(() => {
   console.log('Initializing app...');
   const config = initConfig();
   initDatabase();
+
+  // Register IPC handlers
+  registerIPCHandlers();
 
   // Create window
   mainWindow = createWindow();
