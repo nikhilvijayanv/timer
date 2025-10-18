@@ -53,13 +53,13 @@ Track your progress through all 35 tasks across 7 phases.
 
 | Task | Description | Status | Completed | Notes |
 |------|-------------|--------|-----------|-------|
-| 14 | Implement main.ts (app initialization) | [ ] | | |
+| 14 | Implement main.ts (app initialization) | [x] | 2025-10-19 | |
 | 15 | Create menuBar.ts (tray icon & popover) | [ ] | | |
 | 16 | Implement preload.ts (IPC bridge) | [ ] | | |
 | 17 | Configure global keyboard shortcuts | [ ] | | |
 | 18 | Implement dynamic tray title updates | [ ] | | |
 
-**Phase 4 Progress:** 0/5 tasks complete (0%)
+**Phase 4 Progress:** 1/5 tasks complete (20%)
 
 ---
 
@@ -110,15 +110,15 @@ Track your progress through all 35 tasks across 7 phases.
 ## Overall Progress
 
 - **Total Tasks:** 35
-- **Completed:** 11
-- **Remaining:** 24
-- **Overall Progress:** 31%
+- **Completed:** 12
+- **Remaining:** 23
+- **Overall Progress:** 34%
 
 ### Progress by Phase
 - Phase 1: ███░░░░░░░ 60% (3/5)
 - Phase 2: ██████████ 100% (4/4)
 - Phase 3: ██████████ 100% (4/4)
-- Phase 4: ░░░░░░░░░░ 0%
+- Phase 4: ██░░░░░░░░ 20% (1/5)
 - Phase 5: ░░░░░░░░░░ 0%
 - Phase 6: ░░░░░░░░░░ 0%
 - Phase 7: ░░░░░░░░░░ 0%
@@ -139,8 +139,8 @@ Track your progress through all 35 tasks across 7 phases.
 
 ## Current Sprint
 
-**Working on:** Phase 4, Task 14
-**Next up:** Task 15
+**Working on:** Phase 4, Task 15
+**Next up:** Task 16
 **Blockers:** None
 
 ---

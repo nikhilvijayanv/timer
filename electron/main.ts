@@ -1,48 +1,111 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { initDatabase, closeDatabase } from './database';
-import { initConfig, getConfig } from './config';
+import { initConfig } from './config';
+import { createMenuBarTray, destroyTray } from './menuBar';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-let mainWindow: BrowserWindow | null = null;
+// Prevent multiple instances
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit();
+}
 
-function createWindow() {
+let mainWindow: BrowserWindow | null = null;
+let willQuitApp = false;
+
+function createWindow(): BrowserWindow {
   mainWindow = new BrowserWindow({
     width: 360,
     height: 480,
+    show: false,
+    frame: false,
+    resizable: false,
+    skipTaskbar: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
-    }
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
+  // Load the app
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL('http://localhost:5173');
+    // Uncomment to open DevTools in development
+    // mainWindow.webContents.openDevTools({ mode: 'detach' });
   } else {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
+
+  // Handle window blur (click outside)
+  mainWindow.on('blur', () => {
+    if (!mainWindow?.webContents.isDevToolsOpened()) {
+      mainWindow?.hide();
+    }
+  });
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
+
+  return mainWindow;
 }
 
+// App initialization
 app.whenReady().then(() => {
-  // Initialize configuration first
-  const config = initConfig();
-  console.log('App config:', config);
+  // Hide from dock (macOS)
+  if (process.platform === 'darwin') {
+    app.dock.hide();
+  }
 
-  // Then initialize database
+  // Initialize services
+  console.log('Initializing app...');
+  const config = initConfig();
   initDatabase();
 
-  createWindow();
+  // Create window
+  mainWindow = createWindow();
+
+  // Create menu bar tray
+  createMenuBarTray(mainWindow);
+
+  console.log('App ready. Config:', config);
 });
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
+// macOS specific: Don't quit when all windows are closed
+app.on('window-all-closed', (e) => {
+  e.preventDefault();
+});
+
+// Quit app completely
+app.on('before-quit', () => {
+  willQuitApp = true;
+  closeDatabase();
+  destroyTray();
+});
+
+// Handle second instance
+app.on('second-instance', () => {
+  // Show window if user tries to open app again
+  if (mainWindow) {
+    if (!mainWindow.isVisible()) {
+      mainWindow.show();
+    }
+    mainWindow.focus();
   }
 });
 
-app.on('before-quit', () => {
-  closeDatabase();
+// macOS: Reopen window when clicking dock icon
+app.on('activate', () => {
+  if (mainWindow && !mainWindow.isVisible()) {
+    mainWindow.show();
+  }
 });
+
+// Disable default menu in production
+if (process.env.NODE_ENV !== 'development') {
+  Menu.setApplicationMenu(null);
+}
