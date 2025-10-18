@@ -55,5 +55,36 @@
   }
   body {
     @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling of main container */
+    user-select: none; /* Prevent text selection */
+    -webkit-user-select: none;
+    -webkit-app-region: no-drag;
   }
+}
+
+/* Menu bar popover window specific styles */
+#root {
+  width: 360px;
+  height: 480px;
+  overflow: hidden;
+}
+
+/* Custom scrollbar for macOS feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }
