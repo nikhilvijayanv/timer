@@ -3,15 +3,36 @@ import { TimerService } from './services/TimerService';
 import { getConfig, updateConfig, getConfigPath } from './config';
 import { hideWindow } from './menuBar';
 import { registerGlobalShortcut, getRegisteredShortcut } from './shortcuts';
+import { refreshTrayDisplay } from './trayUpdater';
 
 export function registerIPCHandlers() {
   // Timer handlers
   ipcMain.handle('timer:start', async (_event, taskName: string) => {
-    return TimerService.startTimer(taskName);
+    const result = TimerService.startTimer(taskName);
+
+    // Refresh tray immediately
+    refreshTrayDisplay();
+
+    // Notify all windows
+    BrowserWindow.getAllWindows().forEach((win) => {
+      win.webContents.send('timer:updated');
+    });
+
+    return result;
   });
 
   ipcMain.handle('timer:stop', async () => {
-    return TimerService.stopTimer();
+    const result = TimerService.stopTimer();
+
+    // Refresh tray immediately
+    refreshTrayDisplay();
+
+    // Notify all windows
+    BrowserWindow.getAllWindows().forEach((win) => {
+      win.webContents.send('timer:updated');
+    });
+
+    return result;
   });
 
   ipcMain.handle('timer:getActive', async () => {

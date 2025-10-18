@@ -1,7 +1,7 @@
 import { globalShortcut } from 'electron';
 import { getConfig } from './config';
 import { TimerService } from './services/TimerService';
-import { updateTrayTitle } from './menuBar';
+import { refreshTrayDisplay } from './trayUpdater';
 
 let registeredShortcut: string | null = null;
 
@@ -50,9 +50,6 @@ function handleShortcutPressed(): void {
     const stopped = TimerService.stopTimer();
     console.log('Timer stopped via shortcut:', stopped);
 
-    // Update tray
-    updateTrayTitle('Timer');
-
     // TODO: Play stop sound (will implement in Phase 6)
   } else {
     // Start new timer with default task name
@@ -62,6 +59,9 @@ function handleShortcutPressed(): void {
 
     // TODO: Play start sound (will implement in Phase 6)
   }
+
+  // Refresh tray immediately
+  refreshTrayDisplay();
 }
 
 /**
