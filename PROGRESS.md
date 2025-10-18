@@ -81,7 +81,7 @@ Track your progress through all 35 tasks across 7 phases.
 
 | Task | Description | Status | Completed | Notes |
 |------|-------------|--------|-----------|-------|
-| 24 | Integrate timer start/stop end-to-end | [ ] | | |
+| 24 | Integrate timer start/stop end-to-end | [x] | 2025-10-18 | | |
 | 25 | Add real-time elapsed time display | [ ] | | |
 | 26 | Implement sound playback with HTML5 Audio | [ ] | | |
 | 27 | Sync config settings with UI | [ ] | | |
