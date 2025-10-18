@@ -1,6 +1,10 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
-import { testDatabase } from './test-db';
+import { fileURLToPath } from 'url';
+import { initDatabase, closeDatabase } from './database';
+import { initConfig, getConfig } from './config';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -23,7 +27,13 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  testDatabase();
+  // Initialize configuration first
+  const config = initConfig();
+  console.log('App config:', config);
+
+  // Then initialize database
+  initDatabase();
+
   createWindow();
 });
 
@@ -31,4 +41,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+app.on('before-quit', () => {
+  closeDatabase();
 });
