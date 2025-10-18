@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
+    "build:mac": "tsc && vite build && electron-builder --mac",
+    "build:dir": "tsc && vite build && electron-builder --dir",
     "lint": "eslint .",
     "preview": "vite preview",
     "postinstall": "electron-rebuild -f -w better-sqlite3"
@@ -38,5 +40,30 @@
     "vite-plugin-electron": "^0.29.0",
     "vite-plugin-electron-renderer": "^0.14.6",
     "wait-on": "^9.0.1"
+  },
+  "build": {
+    "appId": "com.timer.menubar",
+    "productName": "Timer",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.icns",
+      "type": "distribution"
+    },
+    "dmg": {
+      "title": "Timer Installer",
+      "icon": "build/icon.icns"
+    },
+    "extraMetadata": {
+      "main": "dist-electron/main.js"
+    }
   }
 }
