@@ -1,0 +1,54 @@
+name: Update PROGRESS.md on Issue Close
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  update-progress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update PROGRESS.md
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const issue = context.payload.issue;
+
+            // Extract task number from title
+            const taskMatch = issue.title.match(/Task (\d+):/);
+            if (!taskMatch) {
+              console.log('Not a task issue, skipping');
+              return;
+            }
+
+            const taskNum = taskMatch[1];
+            console.log(`Updating progress for Task ${taskNum}`);
+
+            // Read PROGRESS.md
+            let progress = fs.readFileSync('PROGRESS.md', 'utf8');
+
+            // Find the task line and mark as complete
+            const taskPattern = new RegExp(`\\| ${taskNum} \\|([^|]+)\\| \\[ \\]`, 'g');
+            const today = new Date().toISOString().split('T')[0];
+
+            progress = progress.replace(
+              taskPattern,
+              `| ${taskNum} |$1| [x] | ${today}`
+            );
+
+            // Write back
+            fs.writeFileSync('PROGRESS.md', progress);
+
+            console.log('PROGRESS.md updated');
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add PROGRESS.md
+          git commit -m "📊 Update progress: Task ${{ github.event.issue.number }} complete" || exit 0
+          git push

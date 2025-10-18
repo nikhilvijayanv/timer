@@ -1,0 +1,80 @@
+name: Implementation Task
+description: Track a development task from the project roadmap
+title: "Task XX: [Task Name]"
+labels: ["task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Task from Roadmap
+        Use this template to track implementation tasks from `contexts/tasks/`
+
+  - type: input
+    id: task_number
+    attributes:
+      label: Task Number
+      description: Which task is this? (1-35)
+      placeholder: "01"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      description: Which development phase?
+      options:
+        - "Phase 1: Project Setup"
+        - "Phase 2: Styling & UI"
+        - "Phase 3: Database & Services"
+        - "Phase 4: Electron Main Process"
+        - "Phase 5: React UI Components"
+        - "Phase 6: Timer Logic & Integration"
+        - "Phase 7: Testing & Build"
+    validations:
+      required: true
+
+  - type: textarea
+    id: task_file
+    attributes:
+      label: Task File Reference
+      description: Link to the detailed task file
+      placeholder: "contexts/tasks/phase1-01-initialize-electron-vite-react.md"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Copy from the task file
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true
+
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Which tasks must be completed first?
+      placeholder: "Task 01, Task 02"
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+      default: 0
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Any extra context or considerations

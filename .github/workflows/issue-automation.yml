@@ -1,0 +1,122 @@
+name: Issue and Project Automation
+
+on:
+  issues:
+    types: [opened, closed, reopened]
+  pull_request:
+    types: [opened, closed, ready_for_review]
+  issue_comment:
+    types: [created]
+
+jobs:
+  # Auto-label issues based on phase
+  auto-label:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'opened'
+    steps:
+      - name: Add phase label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || '';
+
+            // Extract phase from issue body
+            const phaseMatch = body.match(/Phase (\d+):/);
+            if (phaseMatch) {
+              const phaseNum = phaseMatch[1];
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: [`phase-${phaseNum}`]
+              });
+            }
+
+            // Extract task number
+            const taskMatch = issue.title.match(/Task (\d+):/);
+            if (taskMatch) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: ['task']
+              });
+            }
+
+  # Update issue when PR is opened
+  link-pr-to-issue:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    steps:
+      - name: Link PR to Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+
+            // Look for "Closes #XX" or "Fixes #XX"
+            const issueMatch = body.match(/(?:Closes|Fixes|Resolves)\s+#(\d+)/i);
+            if (issueMatch) {
+              const issueNumber = issueMatch[1];
+
+              // Add comment to issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(issueNumber),
+                body: `🔧 Work in progress: #${pr.number}`
+              });
+
+              // Add "in-progress" label to issue
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(issueNumber),
+                labels: ['in-progress']
+              });
+            }
+
+  # Update issue when PR is merged
+  mark-complete-on-merge:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    steps:
+      - name: Mark Issue Complete
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+
+            // Look for linked issue
+            const issueMatch = body.match(/(?:Closes|Fixes|Resolves)\s+#(\d+)/i);
+            if (issueMatch) {
+              const issueNumber = issueMatch[1];
+
+              // Add completion comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(issueNumber),
+                body: `✅ Completed via #${pr.number}`
+              });
+
+              // Remove "in-progress" label, add "completed"
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: parseInt(issueNumber),
+                  name: 'in-progress'
+                });
+              } catch (e) {}
+
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(issueNumber),
+                labels: ['completed']
+              });
+            }
