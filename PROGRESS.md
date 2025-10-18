@@ -16,7 +16,7 @@ Track your progress through all 35 tasks across 7 phases.
 | 01 | Initialize Electron + Vite + React + TypeScript | [ ] | | |
 | 02 | Configure Vite for Electron compatibility | [ ] | | |
 | 03 | Set up electron-rebuild for better-sqlite3 | [x] | 2025-10-18 | | |
-| 04 | Create project directory structure | [ ] | | |
+| 04 | Create project directory structure | [x] | 2025-10-18 | | |
 | 05 | Configure electron-builder for macOS | [ ] | | |
 
 **Phase 1 Progress:** 0/5 tasks complete (0%)
