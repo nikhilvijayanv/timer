@@ -44,6 +44,10 @@ export interface ElectronAPI {
     hide: () => void;
     show: () => void;
   };
+  shortcuts: {
+    get: () => Promise<string | null>;
+    register: (shortcut: string) => Promise<boolean>;
+  };
   on: (channel: string, callback: (...args: any[]) => void) => () => void;
   removeAllListeners: (channel: string) => void;
 }

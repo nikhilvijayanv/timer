@@ -32,6 +32,12 @@ const electronAPI = {
     show: () => ipcRenderer.send('window:show'),
   },
 
+  // Shortcut operations
+  shortcuts: {
+    get: () => ipcRenderer.invoke('shortcuts:get'),
+    register: (shortcut: string) => ipcRenderer.invoke('shortcuts:register', shortcut),
+  },
+
   // Event listeners
   on: (channel: string, callback: (...args: any[]) => void) => {
     const validChannels = [

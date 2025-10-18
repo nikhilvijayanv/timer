@@ -5,6 +5,7 @@ import { initDatabase, closeDatabase } from './database';
 import { initConfig } from './config';
 import { createMenuBarTray, destroyTray } from './menuBar';
 import { registerIPCHandlers } from './ipcHandlers';
+import { registerGlobalShortcut, unregisterAllShortcuts } from './shortcuts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -70,6 +71,12 @@ app.whenReady().then(() => {
   // Register IPC handlers
   registerIPCHandlers();
 
+  // Register global shortcut
+  const shortcutRegistered = registerGlobalShortcut();
+  if (!shortcutRegistered) {
+    console.warn('Could not register global shortcut. Check config.json');
+  }
+
   // Create window
   mainWindow = createWindow();
 
@@ -87,6 +94,7 @@ app.on('window-all-closed', (e) => {
 // Quit app completely
 app.on('before-quit', () => {
   willQuitApp = true;
+  unregisterAllShortcuts();
   closeDatabase();
   destroyTray();
 });

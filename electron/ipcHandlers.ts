@@ -2,6 +2,7 @@ import { ipcMain, BrowserWindow } from 'electron';
 import { TimerService } from './services/TimerService';
 import { getConfig, updateConfig, getConfigPath } from './config';
 import { hideWindow } from './menuBar';
+import { registerGlobalShortcut, getRegisteredShortcut } from './shortcuts';
 
 export function registerIPCHandlers() {
   // Timer handlers
@@ -59,6 +60,19 @@ export function registerIPCHandlers() {
   ipcMain.on('window:show', (_event) => {
     const window = BrowserWindow.fromWebContents(_event.sender);
     window?.show();
+  });
+
+  // Shortcut handlers
+  ipcMain.handle('shortcuts:get', async () => {
+    return getRegisteredShortcut();
+  });
+
+  ipcMain.handle('shortcuts:register', async (_event, shortcut: string) => {
+    // Update config first
+    updateConfig({ globalShortcut: shortcut });
+
+    // Then register the new shortcut
+    return registerGlobalShortcut();
   });
 
   console.log('IPC handlers registered');
