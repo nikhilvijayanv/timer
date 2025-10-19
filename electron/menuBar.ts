@@ -23,12 +23,7 @@ export function createMenuBarTray(mainWindow: BrowserWindow): Tray {
   // Set initial title
   updateTrayTitle('Timer');
 
-  // Handle tray click
-  tray.on('click', () => {
-    toggleWindow();
-  });
-
-  // Create context menu
+  // Create context menu for right-click
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Show Timer',
@@ -50,7 +45,18 @@ export function createMenuBarTray(mainWindow: BrowserWindow): Tray {
     },
   ]);
 
-  tray.setContextMenu(contextMenu);
+  // Handle left-click to toggle window
+  tray.on('click', () => {
+    toggleWindow();
+  });
+
+  // Handle right-click to show context menu manually
+  // Don't use setContextMenu() as it interferes with click events on macOS
+  tray.on('right-click', () => {
+    if (tray) {
+      tray.popUpContextMenu(contextMenu);
+    }
+  });
 
   console.log('Menu bar tray created');
   return tray;

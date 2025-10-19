@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import electron from 'vite-plugin-electron';
-import renderer from 'vite-plugin-electron-renderer';
 import path from 'path';
 
 // https://vite.dev/config/
@@ -11,14 +10,22 @@ export default defineConfig({
     electron([
       {
         entry: 'electron/main.ts',
+        onstart(options) {
+          // Start Electron app
+          options.startup();
+        },
         vite: {
           build: {
             outDir: 'dist-electron',
+            minify: false, // Preserve __dirname
             rollupOptions: {
-              external: ['electron', 'better-sqlite3']
-            }
-          }
-        }
+              external: ['electron', 'better-sqlite3'],
+              output: {
+                format: 'es',
+              },
+            },
+          },
+        },
       },
       {
         entry: 'electron/preload.ts',
@@ -27,17 +34,22 @@ export default defineConfig({
         },
         vite: {
           build: {
-            outDir: 'dist-electron'
-          }
-        }
-      }
+            outDir: 'dist-electron',
+            rollupOptions: {
+              external: ['electron'],
+              output: {
+                format: 'cjs', // Preload MUST be CommonJS
+              },
+            },
+          },
+        },
+      },
     ]),
-    renderer()
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
-  base: './' // Important for Electron file:// protocol
+  base: './', // Important for Electron file:// protocol
 });

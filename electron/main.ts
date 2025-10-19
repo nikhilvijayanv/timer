@@ -37,16 +37,22 @@ function createWindow(): BrowserWindow {
   // Load the app
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL('http://localhost:5173');
-    // Uncomment to open DevTools in development
-    // mainWindow.webContents.openDevTools({ mode: 'detach' });
+    // Open DevTools in development
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
   } else {
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
 
   // Handle window blur (click outside)
   mainWindow.on('blur', () => {
+    // Hide window when it loses focus, unless DevTools is open
     if (!mainWindow?.webContents.isDevToolsOpened()) {
-      mainWindow?.hide();
+      // Small delay to allow any menu interactions to complete
+      setTimeout(() => {
+        if (mainWindow && !mainWindow.isFocused() && !mainWindow.webContents.isDevToolsOpened()) {
+          mainWindow.hide();
+        }
+      }, 100);
     }
   });
 
@@ -91,8 +97,8 @@ app.whenReady().then(() => {
 });
 
 // macOS specific: Don't quit when all windows are closed
-app.on('window-all-closed', (e) => {
-  e.preventDefault();
+app.on('window-all-closed', () => {
+  // Do nothing - keep the app running in the menu bar
 });
 
 // Quit app completely
