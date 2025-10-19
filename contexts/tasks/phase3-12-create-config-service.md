@@ -4,11 +4,13 @@
 **Dependencies:** Task 01 (Electron initialized)
 
 ## Description
+
 Implement the configuration service that manages app settings stored in config.json in the userData directory.
 
 ## Implementation Steps
 
 1. **Create electron/config.ts**
+
    ```typescript
    import { app } from 'electron';
    import path from 'path';
@@ -94,11 +96,7 @@ Implement the configuration service that manages app settings stored in config.j
          fs.mkdirSync(userDataPath, { recursive: true });
        }
 
-       fs.writeFileSync(
-         configPath,
-         JSON.stringify(config, null, 2),
-         'utf-8'
-       );
+       fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
        console.log('Config saved to:', configPath);
      } catch (error) {
        console.error('Error saving config:', error);
@@ -120,7 +118,8 @@ Implement the configuration service that manages app settings stored in config.j
     */
    export function isValidShortcut(shortcut: string): boolean {
      // Basic validation - Electron will validate further
-     const validKeys = /^(CommandOrControl|CmdOrCtrl|Command|Cmd|Control|Ctrl|Alt|Option|AltGr|Shift|Super|Meta)\+/;
+     const validKeys =
+       /^(CommandOrControl|CmdOrCtrl|Command|Cmd|Control|Ctrl|Alt|Option|AltGr|Shift|Super|Meta)\+/;
      return validKeys.test(shortcut);
    }
 
@@ -133,6 +132,7 @@ Implement the configuration service that manages app settings stored in config.j
    ```
 
 2. **Initialize config in electron/main.ts**
+
    ```typescript
    import { initConfig, getConfig } from './config';
 
@@ -150,6 +150,7 @@ Implement the configuration service that manages app settings stored in config.j
 
 3. **Create config watcher (optional but useful)**
    Add to electron/config.ts:
+
    ```typescript
    import { watch } from 'fs';
 
@@ -189,6 +190,7 @@ Implement the configuration service that manages app settings stored in config.j
 
 4. **Test configuration**
    Add temporary test code to main.ts:
+
    ```typescript
    app.whenReady().then(() => {
      const config = initConfig();
@@ -211,12 +213,14 @@ Implement the configuration service that manages app settings stored in config.j
 
 5. **Verify config file**
    After running the app, check that config.json was created:
+
    ```bash
    # macOS
    cat ~/Library/Application\ Support/Electron/config.json
    ```
 
    Should contain:
+
    ```json
    {
      "globalShortcut": "CommandOrControl+Alt+Shift+.",
@@ -228,6 +232,7 @@ Implement the configuration service that manages app settings stored in config.j
    ```
 
 ## Acceptance Criteria
+
 - [ ] Config service initializes on app startup
 - [ ] Default config.json created if doesn't exist
 - [ ] Existing config.json loaded correctly
@@ -238,16 +243,18 @@ Implement the configuration service that manages app settings stored in config.j
 - [ ] File watcher detects external changes (optional)
 
 ## Config Schema
+
 ```typescript
 interface AppConfig {
-  globalShortcut: string;        // Default: 'CommandOrControl+Alt+Shift+.'
-  theme: 'light' | 'dark' | 'system';  // Default: 'system'
-  soundEnabled: boolean;         // Default: true
-  startSound: string;            // Default: 'start.wav'
-  stopSound: string;             // Default: 'stop.wav'
+  globalShortcut: string; // Default: 'CommandOrControl+Alt+Shift+.'
+  theme: 'light' | 'dark' | 'system'; // Default: 'system'
+  soundEnabled: boolean; // Default: true
+  startSound: string; // Default: 'start.wav'
+  stopSound: string; // Default: 'stop.wav'
 }
 ```
 
 ## References
+
 - project_init.md lines 22, 101-120 (User Configuration section)
 - project_init.md lines 52, 143-145 (Config module requirements)

@@ -4,11 +4,13 @@
 **Dependencies:** Task 14 (main.ts implemented)
 
 ## Description
+
 Implement the menu bar tray icon with dynamic title (timer display), context menu, and popover window positioning.
 
 ## Implementation Steps
 
 1. **Create electron/menuBar.ts**
+
    ```typescript
    import { Tray, Menu, BrowserWindow, screen, nativeImage } from 'electron';
    import path from 'path';
@@ -172,27 +174,33 @@ Implement the menu bar tray icon with dynamic title (timer display), context men
    ```
 
 2. **Create assets directory for icons**
+
    ```bash
    mkdir -p assets
    ```
 
 3. **Create placeholder icon**
    Create `assets/README.md`:
+
    ```markdown
    # Tray Icons
 
    ## Required Files
+
    - `iconTemplate.png` - macOS menu bar icon (16x16 or 32x32 @2x)
    - `icon.png` - Windows/Linux tray icon (16x16)
 
    ## macOS Icon Requirements
+
    - Use `iconTemplate.png` naming for automatic dark mode support
    - Should be a simple, monochrome design
    - Black on transparent background
    - Size: 16x16 (or 32x32 for @2x)
 
    ## Create Icon
+
    Can use SF Symbols, create custom in design tool, or use simple Unicode:
+
    - Clock emoji: ⏱
    - Timer symbol: ⏲
    - Simple clock: 🕐
@@ -201,6 +209,7 @@ Implement the menu bar tray icon with dynamic title (timer display), context men
    ```
 
 4. **Test tray functionality**
+
    ```bash
    npm run dev
    ```
@@ -216,6 +225,7 @@ Implement the menu bar tray icon with dynamic title (timer display), context men
    If you have multiple monitors, test that the window appears correctly positioned below the tray icon
 
 ## Acceptance Criteria
+
 - [ ] Tray icon created in menu bar
 - [ ] Click tray to toggle window
 - [ ] Window positioned below tray icon
@@ -226,6 +236,7 @@ Implement the menu bar tray icon with dynamic title (timer display), context men
 - [ ] Tray destroyed on app quit
 
 ## Positioning Logic
+
 ```
 ┌─────────────────────────────────────┐
 │  Menu Bar        [Tray Icon]        │
@@ -238,10 +249,12 @@ Implement the menu bar tray icon with dynamic title (timer display), context men
 ```
 
 ## Future Enhancements (Not in this task)
+
 - Dynamic icon based on timer state
 - Update tray title with elapsed time
 - Badge/notification dot on icon
 
 ## References
+
 - project_init.md lines 23, 47-51 (Menu bar integration)
 - project_init.md lines 136-140 (MenuBar module)

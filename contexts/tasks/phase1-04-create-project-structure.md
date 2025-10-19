@@ -4,16 +4,19 @@
 **Dependencies:** Task 01 (Initialize project)
 
 ## Description
+
 Create the complete directory structure as defined in project_init.md, organizing code into logical modules for the Electron main process and React renderer.
 
 ## Implementation Steps
 
 1. **Create electron/ subdirectories**
+
    ```bash
    mkdir -p electron/services
    ```
 
 2. **Create src/ subdirectories**
+
    ```bash
    mkdir -p src/components/ui
    mkdir -p src/features/Timer
@@ -26,6 +29,7 @@ Create the complete directory structure as defined in project_init.md, organizin
    ```
 
 3. **Create placeholder files for electron modules**
+
    ```bash
    touch electron/config.ts
    touch electron/menuBar.ts
@@ -34,6 +38,7 @@ Create the complete directory structure as defined in project_init.md, organizin
    ```
 
 4. **Create placeholder README files for future features**
+
    ```bash
    echo "# Timer Feature" > src/features/Timer/README.md
    echo "# Tasks Feature" > src/features/Tasks/README.md
@@ -43,6 +48,7 @@ Create the complete directory structure as defined in project_init.md, organizin
 
 5. **Update src/main.tsx (Vite default entry)**
    Ensure it exists and has basic React setup:
+
    ```typescript
    import React from 'react';
    import ReactDOM from 'react-dom/client';
@@ -57,6 +63,7 @@ Create the complete directory structure as defined in project_init.md, organizin
    ```
 
 6. **Create basic src/App.tsx**
+
    ```typescript
    function App() {
      return (
@@ -77,6 +84,7 @@ Create the complete directory structure as defined in project_init.md, organizin
    Should match structure from project_init.md lines 17-44
 
 ## Expected Structure
+
 ```
 root/
 ├─ electron/
@@ -108,10 +116,12 @@ root/
 ```
 
 ## Acceptance Criteria
+
 - [ ] All directories exist as per project structure
 - [ ] Placeholder files created for main modules
 - [ ] Directory structure matches project_init.md specification
 - [ ] `npm run dev` still works after restructuring
 
 ## References
+
 - project_init.md lines 16-44 (Project Structure section)

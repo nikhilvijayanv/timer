@@ -12,6 +12,8 @@ export {
   Calendar,
   BarChart3,
   Folder,
+  FolderKanban,
+  ListTodo,
   Tag,
   CheckCircle2,
   Circle,

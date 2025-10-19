@@ -11,12 +11,14 @@ This document outlines the standard workflow for completing phases in this proje
 This project uses a **phase-based workflow** where each phase (containing multiple tasks) is completed in a single branch and submitted as one pull request.
 
 **Example for Phase 4:**
+
 - Branch: `phase-4-electron-main-process`
 - Tasks: 14, 15, 16, 17, 18 (5 tasks total)
 - Commits: One commit per task (5 commits)
 - PR: One PR that closes all 5 issues
 
 **Benefits:**
+
 - Fewer PRs to review and merge
 - Cohesive changes grouped by phase
 - Easier to test complete features
@@ -40,11 +42,13 @@ git checkout -b phase-{number}-{phase-name}
 ```
 
 **Examples:**
+
 - `git checkout -b phase-4-electron-main-process`
 - `git checkout -b phase-5-react-ui-components`
 - `git checkout -b phase-6-timer-logic-integration`
 
 **Branch naming convention:**
+
 - Use `phase-{number}` prefix
 - Add descriptive phase name from PROGRESS.md
 - Use kebab-case
@@ -56,11 +60,13 @@ git checkout -b phase-{number}-{phase-name}
 For each task in the phase:
 
 #### a) Implement the Task
+
 - Follow acceptance criteria in `contexts/tasks/phase{X}-{number}-*.md`
 - Test changes thoroughly
 - Ensure `npm run dev` still works
 
 #### b) Commit the Task
+
 Use conventional commit format with issue reference:
 
 ```bash
@@ -69,6 +75,7 @@ git commit -m "{type}: {task description} (fixes #{issue-number})"
 ```
 
 **Commit message types:**
+
 - `feat:` - New features
 - `fix:` - Bug fixes
 - `chore:` - Maintenance tasks (build, deps, etc.)
@@ -78,6 +85,7 @@ git commit -m "{type}: {task description} (fixes #{issue-number})"
 - `style:` - Code formatting
 
 **Examples:**
+
 ```bash
 git commit -m "feat: implement main.ts app initialization (fixes #14)"
 git commit -m "feat: create menu bar tray with positioning (fixes #15)"
@@ -87,6 +95,7 @@ git commit -m "feat: implement preload IPC bridge (fixes #16)"
 **IMPORTANT:** Always include `(fixes #{issue-number})` to auto-close the issue when PR merges.
 
 #### c) Continue to Next Task
+
 - Stay on the same branch
 - Implement next task in the phase
 - Commit when complete
@@ -103,6 +112,7 @@ git push -u origin HEAD
 ```
 
 Or explicitly:
+
 ```bash
 git push origin phase-{number}-{description}
 ```
@@ -138,6 +148,7 @@ Brief description of what this phase accomplishes
 ```
 
 **Example for Phase 4:**
+
 ```bash
 gh pr create --title "Phase 4: Electron Main Process" --body "Closes #14, Closes #15, Closes #16, Closes #17, Closes #18
 
@@ -205,14 +216,17 @@ Implements the complete Electron main process including app initialization, menu
 The following automations are configured via workflows:
 
 ### On PR Open
+
 - **move-to-in-progress.yml**: Moves linked issues to "In Progress" on project board
 - **issue-automation.yml**: Adds "in-progress" label to all linked issues
 
 ### On PR Merge
+
 - **issue-automation.yml**: Auto-closes all linked issues, adds "completed" label
 - **update-progress.yml**: Updates PROGRESS.md to mark tasks as complete
 
 ### On Issue Creation
+
 - **issue-automation.yml**: Auto-adds phase labels (phase-1, phase-2, etc.)
 
 ---
@@ -322,6 +336,7 @@ gh pr create --title "Phase 4: Electron Main Process" --body "Closes #14, Closes
 **New workflow:** One PR per phase (Phase 4 with Tasks 14-18 → One PR)
 
 If you have incomplete tasks from a previous PR:
+
 1. Complete remaining tasks on the phase branch
 2. Make one commit per task
 3. Create one final PR for the complete phase

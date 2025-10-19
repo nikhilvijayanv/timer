@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+const { contextBridge, ipcRenderer } = require('electron');
 
 // Define the API interface that will be exposed to renderer
 const electronAPI = {
@@ -11,6 +11,8 @@ const electronAPI = {
     deleteEntry: (entryId: number) => ipcRenderer.invoke('timer:deleteEntry', entryId),
     updateNotes: (entryId: number, notes: string) =>
       ipcRenderer.invoke('timer:updateNotes', entryId, notes),
+    getTotalTimeForTask: (taskId: number) =>
+      ipcRenderer.invoke('timer:getTotalTimeForTask', taskId),
   },
 
   // Task operations
@@ -40,11 +42,7 @@ const electronAPI = {
 
   // Event listeners
   on: (channel: string, callback: (...args: any[]) => void) => {
-    const validChannels = [
-      'timer:updated',
-      'config:updated',
-      'tray:clicked',
-    ];
+    const validChannels = ['timer:updated', 'config:updated', 'tray:clicked'];
 
     if (validChannels.includes(channel)) {
       const subscription = (_event: any, ...args: any[]) => callback(...args);

@@ -4,21 +4,25 @@
 **Dependencies:** Task 01, 02 (Project initialized and Vite configured)
 
 ## Description
+
 Set up electron-builder to package the app as a macOS .dmg installer, with proper configuration for a menu bar application.
 
 ## Implementation Steps
 
 1. **Ensure electron-builder is installed**
+
    ```bash
    npm install --save-dev electron-builder
    ```
 
 2. **Create build/ directory for assets**
+
    ```bash
    mkdir build
    ```
 
 3. **Add electron-builder configuration to package.json**
+
    ```json
    {
      "build": {
@@ -27,11 +31,7 @@ Set up electron-builder to package the app as a macOS .dmg installer, with prope
        "directories": {
          "output": "release"
        },
-       "files": [
-         "dist/**/*",
-         "dist-electron/**/*",
-         "package.json"
-       ],
+       "files": ["dist/**/*", "dist-electron/**/*", "package.json"],
        "mac": {
          "target": ["dmg"],
          "category": "public.app-category.productivity",
@@ -50,6 +50,7 @@ Set up electron-builder to package the app as a macOS .dmg installer, with prope
    ```
 
 4. **Update build scripts in package.json**
+
    ```json
    {
      "scripts": {
@@ -61,6 +62,7 @@ Set up electron-builder to package the app as a macOS .dmg installer, with prope
    ```
 
 5. **Create placeholder icon file**
+
    ```bash
    # Note: Will need actual .icns file later
    # For now, document where it should go
@@ -69,6 +71,7 @@ Set up electron-builder to package the app as a macOS .dmg installer, with prope
 
 6. **Update .gitignore**
    Add build output directories:
+
    ```
    release/
    ```
@@ -80,6 +83,7 @@ Set up electron-builder to package the app as a macOS .dmg installer, with prope
    Should create `release/mac/Timer.app`
 
 ## Acceptance Criteria
+
 - [ ] electron-builder configured in package.json
 - [ ] Build scripts added: `build`, `build:mac`, `build:dir`
 - [ ] macOS-specific settings configured (category, DMG)
@@ -87,10 +91,12 @@ Set up electron-builder to package the app as a macOS .dmg installer, with prope
 - [ ] release/ directory in .gitignore
 
 ## Notes
+
 - Universal binary (Intel + Apple Silicon) can be added later with `"target": ["dmg", "zip"]` and `"arch": ["x64", "arm64"]`
 - Icon file (build/icon.icns) will need to be created from a 1024x1024 PNG
 - Code signing can be added later if needed for distribution
 
 ## References
+
 - [electron-builder Documentation](https://www.electron.build/)
 - project_init.md lines 168-225 (macOS Build section)

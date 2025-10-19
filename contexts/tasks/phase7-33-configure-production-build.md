@@ -4,11 +4,13 @@
 **Dependencies:** Task 05 (electron-builder initial config)
 
 ## Description
+
 Finalize electron-builder configuration for production-ready macOS builds, including proper app metadata, icons, and DMG creation.
 
 ## Implementation Steps
 
 1. **Update package.json with app metadata**
+
    ```json
    {
      "name": "timer",
@@ -29,6 +31,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
    ```
 
 2. **Update electron-builder configuration**
+
    ```json
    {
      "build": {
@@ -39,11 +42,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
          "output": "release",
          "buildResources": "build"
        },
-       "files": [
-         "dist/**/*",
-         "dist-electron/**/*",
-         "package.json"
-       ],
+       "files": ["dist/**/*", "dist-electron/**/*", "package.json"],
        "mac": {
          "target": [
            {
@@ -90,6 +89,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
 
 3. **Create entitlements file for macOS**
    Create `build/entitlements.mac.plist`:
+
    ```xml
    <?xml version="1.0" encoding="UTF-8"?>
    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -148,6 +148,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
    - Simple branded background for DMG installer
 
 7. **Update build scripts**
+
    ```json
    {
      "scripts": {
@@ -161,6 +162,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
    ```
 
 8. **Test directory build (faster)**
+
    ```bash
    npm run build:dir
    ```
@@ -172,6 +174,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
    - No console errors
 
 9. **Build DMG for distribution**
+
    ```bash
    npm run build:mac
    ```
@@ -181,6 +184,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
    - `release/Timer-1.0.0-arm64.dmg` (Apple Silicon)
 
    Or universal:
+
    ```bash
    npm run build:universal
    ```
@@ -195,38 +199,48 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
 
 11. **Document build process**
     Create `docs/BUILD.md`:
-    ```markdown
+
+    ````markdown
     # Build Instructions
 
     ## Prerequisites
+
     - Node.js 20.19+ or 22.12+
     - macOS (for macOS builds)
     - Xcode Command Line Tools
 
     ## Development Build
+
     ```bash
     npm install
     npm run dev
     ```
+    ````
 
     ## Production Build
 
     ### Quick Directory Build (Testing)
+
     ```bash
     npm run build:dir
     ```
+
     Output: `release/mac/Timer.app`
 
     ### DMG Build (Distribution)
+
     ```bash
     npm run build:mac
     ```
+
     Output: `release/Timer-1.0.0.dmg`
 
     ### Universal Binary (Intel + Apple Silicon)
+
     ```bash
     npm run build:universal
     ```
+
     Output: `release/Timer-1.0.0-universal.dmg`
 
     ## Build Output
@@ -235,6 +249,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
     - `release/latest-mac.yml` - Update metadata
 
     ## Code Signing (Optional)
+
     For distribution outside the App Store, you need:
     1. Apple Developer account
     2. Developer ID certificate
@@ -244,9 +259,13 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
     - **Build fails:** Check Node.js version, run `npm install`
     - **App won't open:** Check Gatekeeper settings
     - **Native module errors:** Run `npm run postinstall`
+
+    ```
+
     ```
 
 ## Acceptance Criteria
+
 - [ ] App metadata complete
 - [ ] Icons created and configured
 - [ ] electron-builder config finalized
@@ -257,6 +276,7 @@ Finalize electron-builder configuration for production-ready macOS builds, inclu
 - [ ] Proper app identity and branding
 
 ## Build Outputs
+
 ```
 release/
 ├── Timer-1.0.0.dmg              # DMG installer (Intel)
@@ -268,11 +288,14 @@ release/
 ```
 
 ## App Size Targets
+
 - **.app bundle:** ~200-300MB
 - **DMG:** ~100-150MB (compressed)
 
 ## Code Signing (Future)
+
 To distribute outside App Store:
+
 1. Get Developer ID certificate
 2. Add to build config:
    ```json
@@ -283,5 +306,6 @@ To distribute outside App Store:
 3. Notarize with Apple
 
 ## References
+
 - [electron-builder Documentation](https://www.electron.build/)
 - project_init.md lines 168-225 (macOS Build section)

@@ -4,17 +4,20 @@
 **Dependencies:** Task 07 (shadcn/ui configured)
 
 ## Description
+
 Install and configure Lucide React icons for use throughout the application UI.
 
 ## Implementation Steps
 
 1. **Install lucide-react**
+
    ```bash
    npm install lucide-react
    ```
 
 2. **Create icon export file for commonly used icons**
    Create `src/components/ui/icons.tsx`:
+
    ```typescript
    export {
      Play,
@@ -42,6 +45,7 @@ Install and configure Lucide React icons for use throughout the application UI.
    ```
 
 3. **Test icons in App.tsx**
+
    ```typescript
    import { Button } from "@/components/ui/button";
    import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -84,6 +88,7 @@ Install and configure Lucide React icons for use throughout the application UI.
 
 4. **Create icon size utilities (optional)**
    Add to `src/lib/utils.ts`:
+
    ```typescript
    export const iconSizes = {
      xs: 'h-3 w-3',
@@ -101,6 +106,7 @@ Install and configure Lucide React icons for use throughout the application UI.
    Should see icons in buttons and header
 
 ## Acceptance Criteria
+
 - [ ] lucide-react installed
 - [ ] Icon exports file created with commonly used icons
 - [ ] Icons render correctly in test components
@@ -108,7 +114,9 @@ Install and configure Lucide React icons for use throughout the application UI.
 - [ ] No console errors related to icons
 
 ## Icon Reference for Features
+
 The following icons will be used in the app:
+
 - **Timer:** Play, Pause, Square (stop)
 - **Time display:** Clock
 - **Navigation:** Menu, ChevronDown, ChevronRight
@@ -119,5 +127,6 @@ The following icons will be used in the app:
 - **Settings:** Settings
 
 ## References
+
 - [Lucide Icons](https://lucide.dev/)
 - project_init.md line 13

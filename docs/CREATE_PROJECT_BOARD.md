@@ -75,11 +75,13 @@ URL will be: `https://github.com/users/nikhilvijayanv/projects/1`
 ### Add Custom Columns:
 
 Default columns:
+
 - 📋 **Todo** - Pending tasks
 - 🏗️ **In Progress** - Current work
 - ✅ **Done** - Completed tasks
 
 You can add more:
+
 - **Blocked** - Waiting on dependencies
 - **Testing** - Code complete, testing
 - **Review** - Waiting for review
@@ -95,14 +97,17 @@ Click **"⋯"** (three dots) on any column → **"Manage automation"**
 **Recommended automations:**
 
 **Todo column:**
+
 - ✅ Auto-add items: Issues with label `task`
 - ✅ Set status to: Todo
 
 **In Progress column:**
+
 - ✅ When PR is opened
 - ✅ When issue is assigned
 
 **Done column:**
+
 - ✅ When PR is merged
 - ✅ When issue is closed
 
@@ -125,6 +130,7 @@ Your board will look like this:
 ```
 
 **As you work:**
+
 - Drag tasks to "In Progress" when you start
 - PRs automatically move tasks
 - Completed tasks move to "Done"
@@ -134,6 +140,7 @@ Your board will look like this:
 ## 🎯 After Setup
 
 **Your project board URL:**
+
 ```
 https://github.com/users/nikhilvijayanv/projects/1
 ```
@@ -141,6 +148,7 @@ https://github.com/users/nikhilvijayanv/projects/1
 **Bookmark it!**
 
 **Access anytime:**
+
 - Your profile → Projects tab
 - Or: https://github.com/nikhilvijayanv?tab=projects
 
@@ -164,6 +172,7 @@ Once your board is set up, start working:
 ```
 
 **Your workflow:**
+
 1. Task appears in "Todo" column
 2. Start work → Move to "In Progress" (or auto-moves when you create branch)
 3. Create PR → Stays in "In Progress"
@@ -174,14 +183,17 @@ Once your board is set up, start working:
 ## 🆘 Troubleshooting
 
 **"Can't find Projects tab"**
+
 - Make sure you're on your repository page
 - Projects should be between "Pull requests" and "Wiki"
 
 **"Can't add issues to project"**
+
 - Make sure the project is created
 - Use the search method: `is:issue label:task`
 
 **"Issues not showing up"**
+
 - Refresh the page
 - Check the filter/search
 - Make sure issues have `task` label

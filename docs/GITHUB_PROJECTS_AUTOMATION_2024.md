@@ -25,37 +25,45 @@ The automation settings are **not in the column menu** - they're at the project 
 When you open Workflows, you'll see these options:
 
 ### 1. Auto-add to project
+
 **What it does:** Automatically adds items when they match criteria
 
 **Configure:**
+
 - Click "Edit"
 - Set filters (label, assignee, etc.)
 - Choose target column (Todo, In Progress, Done)
 
 **Example:**
+
 ```
 When: Issue has label "in-progress"
 Then: Set status to "In Progress"
 ```
 
 ### 2. Auto-archive
+
 **What it does:** Moves items when they're closed/merged
 
 **Configure:**
+
 - Click "Edit"
 - Choose when to trigger (issue closed, PR merged)
 - Set target status (Done)
 
 **Example:**
+
 ```
 When: Issue is closed
 Then: Set status to "Done"
 ```
 
 ### 3. Auto-update
+
 **What it does:** Updates status based on events
 
 **Configure:**
+
 - Click "Edit"
 - Choose trigger event
 - Set new status
@@ -149,6 +157,7 @@ Takes 2 seconds per task, totally fine for 35 tasks!
 ### Use Labels Instead
 
 The GitHub Actions workflows already set labels:
+
 - Issue gets `in-progress` label → You see it's being worked on
 - Issue gets `completed` label → You see it's done
 - PROGRESS.md auto-updates → You track completion
@@ -160,16 +169,19 @@ The GitHub Actions workflows already set labels:
 ## 🎯 Recommended Approach
 
 ### Option 1: Manual Board Management (Simplest)
+
 - Let GitHub Actions handle labels
 - Manually drag issues on board
 - PROGRESS.md tracks everything
 
 ### Option 2: Workflows (If Available)
+
 - Find "⋮" menu in top right
 - Click "Workflows"
 - Enable automation
 
 ### Option 3: Skip Board Automation
+
 - Just use the Issues list
 - Labels show status
 - PROGRESS.md tracks completion

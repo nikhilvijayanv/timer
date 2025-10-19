@@ -4,12 +4,14 @@
 **Dependencies:** Task 19-22 (All feature components created)
 
 ## Description
+
 Create the main app layout with navigation between Timer, Tasks, Projects, and Reports views. Implement a clean tab-based navigation system.
 
 ## Implementation Steps
 
 1. **Create navigation component**
    Create `src/components/Navigation.tsx`:
+
    ```typescript
    import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
    import { Clock, Tag, Folder, BarChart3 } from '@/components/ui/icons';
@@ -48,6 +50,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
 
 2. **Create view container component**
    Create `src/components/ViewContainer.tsx`:
+
    ```typescript
    import { ReactNode } from 'react';
 
@@ -62,6 +65,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
 
 3. **Create AppHeader component**
    Create `src/components/AppHeader.tsx`:
+
    ```typescript
    import { Button } from '@/components/ui/button';
    import { Settings, X } from '@/components/ui/icons';
@@ -103,6 +107,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
    ```
 
 4. **Update App.tsx with complete layout**
+
    ```typescript
    import { useState } from 'react';
    import { CompactTimerView, QuickTaskEntry, TodayEntries } from '@/features/Timer';
@@ -165,6 +170,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
 
 5. **Add keyboard shortcuts for navigation**
    Update `src/hooks/useKeyboardShortcuts.ts` (create if doesn't exist):
+
    ```typescript
    import { useEffect } from 'react';
 
@@ -193,6 +199,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
    ```
 
 6. **Use keyboard shortcuts in App**
+
    ```typescript
    import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
@@ -211,6 +218,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
    ```
 
 7. **Test complete app layout**
+
    ```bash
    npm run dev
    ```
@@ -226,6 +234,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
    - Keyboard shortcuts work (Cmd+1, Cmd+2, etc.)
 
 ## Acceptance Criteria
+
 - [ ] Navigation tabs for all 4 views
 - [ ] Views switch correctly
 - [ ] Timer view shows all timer components
@@ -238,6 +247,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
 - [ ] No scroll issues or overflow
 
 ## Layout Structure
+
 ```
 ┌─────────────────────────────┐
 │  Timer          [⚙] [✕]    │ ← AppHeader
@@ -254,6 +264,7 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
 ```
 
 ## Keyboard Shortcuts
+
 - `Cmd/Ctrl + 1` - Timer view
 - `Cmd/Ctrl + 2` - Tasks view
 - `Cmd/Ctrl + 3` - Projects view
@@ -262,5 +273,6 @@ Create the main app layout with navigation between Timer, Tasks, Projects, and R
 - `Escape` - Close window (future)
 
 ## References
+
 - project_init.md lines 158-162 (Renderer components)
 - project_init.md lines 64-78 (Window configuration - 360x480)

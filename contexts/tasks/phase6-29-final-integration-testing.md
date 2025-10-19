@@ -4,22 +4,27 @@
 **Dependencies:** All previous tasks in Phase 6
 
 ## Description
+
 Conduct comprehensive end-to-end testing of the entire application, fix any bugs found, and ensure all features work together smoothly.
 
 ## Implementation Steps
 
 1. **Create comprehensive test plan**
    Create `scripts/integration-test-plan.md`:
+
    ```markdown
    # Timer App Integration Test Plan
 
    ## Environment Setup
+
    - [ ] Clean database (delete timer.db)
    - [ ] Reset config.json to defaults
    - [ ] Fresh app start
 
    ## Core Timer Flow
+
    ### Start Timer
+
    - [ ] Enter task name "Integration Test 1"
    - [ ] Click Start
    - [ ] Verify CompactTimerView appears
@@ -29,6 +34,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify QuickTaskEntry disappears
 
    ### Timer Running
+
    - [ ] Let timer run for 30 seconds
    - [ ] Verify time display updates every second
    - [ ] Verify tray updates every second
@@ -38,6 +44,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify timer still running with correct time
 
    ### Stop Timer
+
    - [ ] Click stop button
    - [ ] Verify CompactTimerView disappears
    - [ ] Verify QuickTaskEntry reappears
@@ -47,6 +54,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify duration is approximately 30 seconds
 
    ## Tasks Management
+
    - [ ] Create task "Task A"
    - [ ] Create task "Task B"
    - [ ] Create task "Task C"
@@ -58,6 +66,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify timer starts with correct task name
 
    ## Multiple Timers
+
    - [ ] Start timer "Session 1"
    - [ ] Wait 15 seconds, stop
    - [ ] Start timer "Session 2"
@@ -68,6 +77,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify total duration calculated correctly
 
    ## Time Entry Management
+
    - [ ] Click edit icon on first entry
    - [ ] Add note "Test note"
    - [ ] Save note
@@ -77,6 +87,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify total duration recalculated
 
    ## Global Shortcut
+
    - [ ] Focus another app
    - [ ] Press global shortcut (Cmd+Alt+Shift+.)
    - [ ] Verify timer starts
@@ -87,6 +98,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify stop sound plays
 
    ## Settings
+
    - [ ] Open Settings dialog
    - [ ] Change theme to Dark
    - [ ] Verify UI switches to dark mode
@@ -100,6 +112,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Save and verify changes persist
 
    ## Navigation
+
    - [ ] Click Timer tab
    - [ ] Click Tasks tab
    - [ ] Click Projects tab (verify placeholder)
@@ -110,6 +123,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Press Cmd+4 (Reports)
 
    ## Edge Cases
+
    - [ ] Try to start timer with empty name (should be disabled)
    - [ ] Start timer, immediately stop (< 1 second)
    - [ ] Start timer, wait 1 hour, stop
@@ -119,12 +133,14 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Restart app, verify data persists
 
    ## Performance
+
    - [ ] Monitor CPU usage with timer running (should be < 2%)
    - [ ] Monitor memory usage over 10 minutes (no leaks)
    - [ ] UI remains responsive with many entries
    - [ ] Database operations fast (< 50ms)
 
    ## App Lifecycle
+
    - [ ] Start app
    - [ ] Verify app not in dock
    - [ ] Verify tray icon appears
@@ -135,6 +151,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Verify config persisted
 
    ## Error Handling
+
    - [ ] Corrupt database file (should recover)
    - [ ] Invalid config.json (should use defaults)
    - [ ] Missing audio files (should fail gracefully)
@@ -145,21 +162,24 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
 
 3. **Create bug tracking document**
    Create `scripts/bugs-found.md`:
+
    ```markdown
    # Bugs Found During Integration Testing
 
    ## Bug Template
+
    **ID:** BUG-XXX
    **Severity:** High / Medium / Low
    **Component:** Timer / Tasks / UI / etc.
    **Description:** What's wrong
    **Steps to Reproduce:**
+
    1. ...
    2. ...
-   **Expected:** What should happen
-   **Actual:** What actually happens
-   **Fix:** How to fix (if known)
-   **Status:** Open / In Progress / Fixed
+      **Expected:** What should happen
+      **Actual:** What actually happens
+      **Fix:** How to fix (if known)
+      **Status:** Open / In Progress / Fixed
 
    ---
 
@@ -203,6 +223,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    ```
 
 7. **Add data validation**
+
    ```typescript
    // Validate before database operations
    if (!taskName || taskName.trim().length === 0) {
@@ -221,16 +242,19 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - Optimize database queries
 
 9. **Create final checklist**
+
    ```markdown
    # Pre-Release Checklist
 
    ## Functionality
+
    - [ ] All core features working
    - [ ] No critical bugs
    - [ ] Error handling comprehensive
    - [ ] Performance acceptable
 
    ## UI/UX
+
    - [ ] All views accessible
    - [ ] Navigation smooth
    - [ ] No layout issues
@@ -238,12 +262,14 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Responsive to window size
 
    ## Data
+
    - [ ] Database operations reliable
    - [ ] Data persists correctly
    - [ ] No data corruption
    - [ ] Migrations work (if any)
 
    ## System Integration
+
    - [ ] Menu bar icon works
    - [ ] Tray updates correctly
    - [ ] Global shortcut works
@@ -251,6 +277,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Sounds play properly
 
    ## Code Quality
+
    - [ ] No console errors
    - [ ] No TypeScript errors
    - [ ] No memory leaks
@@ -258,6 +285,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    - [ ] Error boundaries in place
 
    ## Documentation
+
    - [ ] README updated
    - [ ] User instructions clear
    - [ ] Known issues documented
@@ -265,6 +293,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
    ```
 
 10. **Run final verification**
+
     ```bash
     # Clean build
     rm -rf node_modules dist dist-electron
@@ -276,6 +305,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
     ```
 
 ## Acceptance Criteria
+
 - [ ] All test plan items pass
 - [ ] Zero critical bugs
 - [ ] < 3 minor bugs (documented)
@@ -286,6 +316,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
 - [ ] App ready for Phase 7 (testing & build)
 
 ## Performance Targets
+
 - **CPU idle:** < 1%
 - **CPU with timer:** < 2%
 - **Memory:** < 150MB
@@ -294,6 +325,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
 - **App start:** < 3 seconds
 
 ## Quality Metrics
+
 - **TypeScript errors:** 0
 - **Console errors:** 0
 - **Test coverage:** Manual tests passing
@@ -301,6 +333,7 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
 - **Edge cases:** Handled
 
 ## Known Limitations (Acceptable)
+
 - No automatic cloud sync (future)
 - No mobile app (future)
 - Projects feature not implemented (future)
@@ -308,5 +341,6 @@ Conduct comprehensive end-to-end testing of the entire application, fix any bugs
 - macOS only (by design)
 
 ## References
+
 - All previous task files
 - project_init.md (complete requirements)

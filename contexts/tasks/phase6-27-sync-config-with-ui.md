@@ -4,12 +4,14 @@
 **Dependencies:** Task 12 (Config service), Task 26 (Sound implemented)
 
 ## Description
+
 Create a settings dialog in the UI that allows users to view and update configuration without manually editing config.json.
 
 ## Implementation Steps
 
 1. **Create Settings dialog component**
    Create `src/components/SettingsDialog.tsx`:
+
    ```typescript
    import { useState, useEffect } from 'react';
    import {
@@ -213,12 +215,14 @@ Create a settings dialog in the UI that allows users to view and update configur
    ```
 
 2. **Install missing shadcn component**
+
    ```bash
    npx shadcn@latest add label
    ```
 
 3. **Update AppHeader to use SettingsDialog**
    Update `src/components/AppHeader.tsx`:
+
    ```typescript
    import { Button } from '@/components/ui/button';
    import { X } from '@/components/ui/icons';
@@ -250,6 +254,7 @@ Create a settings dialog in the UI that allows users to view and update configur
 
 4. **Update ThemeContext to persist changes**
    Update `src/contexts/ThemeContext.tsx`:
+
    ```typescript
    export function ThemeProvider({ children }: { children: React.ReactNode }) {
      const [theme, setTheme] = useState<Theme>('system');
@@ -290,6 +295,7 @@ Create a settings dialog in the UI that allows users to view and update configur
    ```
 
 5. **Test settings dialog**
+
    ```bash
    npm run dev
    ```
@@ -305,6 +311,7 @@ Create a settings dialog in the UI that allows users to view and update configur
    - Reopen dialog → changes should persist
 
 ## Acceptance Criteria
+
 - [ ] Settings dialog accessible from header
 - [ ] All config options displayed
 - [ ] Theme changes apply immediately
@@ -316,12 +323,14 @@ Create a settings dialog in the UI that allows users to view and update configur
 - [ ] Cancel button discards changes
 
 ## Settings Managed
+
 - **Theme:** Light, Dark, System (applies immediately)
 - **Sound Effects:** On/Off (applies immediately)
 - **Global Shortcut:** Text input (requires restart)
 - **Config Path:** Display only (with copy button)
 
 ## Future Enhancements (Not in this task)
+
 - Validate shortcut format before saving
 - Test shortcut registration without restart
 - Add more sound options (volume, custom files)
@@ -330,6 +339,7 @@ Create a settings dialog in the UI that allows users to view and update configur
 - Backup settings
 
 ## UI/UX Notes
+
 - Settings icon in top-right of header
 - Dialog modal (blocks background)
 - Save/Cancel buttons
@@ -337,5 +347,6 @@ Create a settings dialog in the UI that allows users to view and update configur
 - Immediate preview of theme changes
 
 ## References
+
 - project_init.md lines 22, 101-120 (User Configuration)
 - project_init.md lines 52, 117-119 (Manually editable config)

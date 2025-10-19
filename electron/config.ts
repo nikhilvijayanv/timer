@@ -82,11 +82,7 @@ export function saveConfig(): void {
       fs.mkdirSync(userDataPath, { recursive: true });
     }
 
-    fs.writeFileSync(
-      configPath,
-      JSON.stringify(config, null, 2),
-      'utf-8'
-    );
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
     console.log('Config saved to:', configPath);
   } catch (error) {
     console.error('Error saving config:', error);
@@ -108,7 +104,8 @@ export function resetConfig(): AppConfig {
  */
 export function isValidShortcut(shortcut: string): boolean {
   // Basic validation - Electron will validate further
-  const validKeys = /^(CommandOrControl|CmdOrCtrl|Command|Cmd|Control|Ctrl|Alt|Option|AltGr|Shift|Super|Meta)\+/;
+  const validKeys =
+    /^(CommandOrControl|CmdOrCtrl|Command|Cmd|Control|Ctrl|Alt|Option|AltGr|Shift|Super|Meta)\+/;
   return validKeys.test(shortcut);
 }
 

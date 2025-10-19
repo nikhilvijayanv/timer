@@ -4,6 +4,7 @@
 **Dependencies:** Task 16 (IPC bridge), Task 24 (Timer integration), Task 27 (Config sync)
 
 ## Description
+
 Ensure all IPC communication is properly wired up, events are handled correctly, and there are no memory leaks from event listeners.
 
 ## Implementation Steps
@@ -40,6 +41,7 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
 
 3. **Add comprehensive error handling**
    Update `electron/ipcHandlers.ts`:
+
    ```typescript
    export function registerIPCHandlers() {
      // Timer handlers with error handling
@@ -84,6 +86,7 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
 
 4. **Create IPC testing utility**
    Create `src/utils/ipcTest.ts`:
+
    ```typescript
    /**
     * Test IPC communication
@@ -146,6 +149,7 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
 
 6. **Add IPC debugging helper**
    Create `electron/ipcDebug.ts`:
+
    ```typescript
    import { ipcMain } from 'electron';
 
@@ -180,6 +184,7 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
 
 7. **Enable debug in development**
    Update `electron/main.ts`:
+
    ```typescript
    import { enableIPCDebug } from './ipcDebug';
 
@@ -190,10 +195,12 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
 
 8. **Test all IPC flows**
    Create `scripts/test-ipc.md`:
+
    ```markdown
    # IPC Communication Test Checklist
 
    ## Timer Operations
+
    - [ ] Start timer via UI
    - [ ] Stop timer via UI
    - [ ] Get active timer on load
@@ -202,11 +209,13 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
    - [ ] Update notes on entry
 
    ## Task Operations
+
    - [ ] Get all tasks
    - [ ] Create new task
    - [ ] Select task from dropdown
 
    ## Config Operations
+
    - [ ] Load config on app start
    - [ ] Update theme via settings
    - [ ] Update sound preference
@@ -214,34 +223,40 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
    - [ ] Get config path
 
    ## Events
+
    - [ ] timer:updated fires on start
    - [ ] timer:updated fires on stop
    - [ ] sound:play fires from shortcut
    - [ ] Events received in all open windows (if multiple)
 
    ## Window Operations
+
    - [ ] Hide window via close button
    - [ ] Show window via tray click
 
    ## Error Handling
+
    - [ ] Invalid task name handled
    - [ ] Network/DB errors don't crash app
    - [ ] Error messages shown to user
 
    ## Memory
+
    - [ ] Event listeners cleaned up on unmount
    - [ ] No memory leaks over time
    - [ ] App responsive after many operations
    ```
 
 9. **Run comprehensive IPC test**
+
    ```bash
    npm run dev
    ```
 
    In browser console:
+
    ```javascript
-   window.testIPC()
+   window.testIPC();
    ```
 
    Should see all tests pass
@@ -253,6 +268,7 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
     - Switch views while loading
 
 ## Acceptance Criteria
+
 - [ ] All IPC handlers registered
 - [ ] All IPC channels documented
 - [ ] Error handling on all handlers
@@ -263,12 +279,14 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
 - [ ] All IPC tests pass
 
 ## Common Issues to Fix
+
 - **Unhandled promise rejections:** Add try/catch
 - **Memory leaks:** Ensure `unsubscribe()` called
 - **Stale closures:** Use refs or deps correctly
 - **Race conditions:** Add debouncing if needed
 
 ## IPC Best Practices
+
 - ✓ Always handle errors in IPC handlers
 - ✓ Validate input parameters
 - ✓ Return consistent response types
@@ -279,6 +297,7 @@ Ensure all IPC communication is properly wired up, events are handled correctly,
 - ✓ Log operations in development
 
 ## Performance Monitoring
+
 ```typescript
 // Add to IPC handlers for slow operations
 const start = Date.now();
@@ -290,5 +309,6 @@ if (duration > 100) {
 ```
 
 ## References
+
 - project_init.md lines 21, 150, 232-236 (IPC & security)
 - project_init.md lines 64-77 (WebPreferences with contextIsolation)

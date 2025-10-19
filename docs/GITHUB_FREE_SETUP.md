@@ -16,6 +16,7 @@ This project works **100% on GitHub Free**! Here's how to set it up optimally.
 ### 1. Create Repository
 
 **Option A: Public Repo (Recommended)**
+
 ```bash
 # Public = unlimited Actions minutes
 gh repo create timer --public --source=. --remote=origin
@@ -23,6 +24,7 @@ git push -u origin main
 ```
 
 **Option B: Private Repo**
+
 ```bash
 # Private = 2,000 Actions minutes/month (still plenty)
 gh repo create timer --private --source=. --remote=origin
@@ -34,6 +36,7 @@ git push -u origin main
 ### 2. Enable GitHub Actions
 
 Go to repo → Settings → Actions → General:
+
 - ✅ Allow all actions and reusable workflows
 - ✅ Read and write permissions (for PROGRESS.md auto-update)
 - ✅ Allow GitHub Actions to create and approve pull requests
@@ -62,6 +65,7 @@ gh project create --title "Timer App Development" --owner @me
 ### 5. Set Up Basic Branch Protection (Optional)
 
 Settings → Branches → Add rule:
+
 - Branch name pattern: `main`
 - ✅ Require a pull request before merging
 - ✅ Require status checks to pass (if you set up tests)
@@ -86,6 +90,7 @@ Settings → Billing → Plans and usage → Actions
 ## 🔄 Recommended Workflow (Free-Optimized)
 
 ### For Public Repos (Unlimited Actions)
+
 Use full automation - it's free!
 
 ```bash
@@ -103,10 +108,12 @@ gh pr merge
 Same workflow, but if you want to save minutes:
 
 **Option 1: Keep auto-updates** (recommended)
+
 - Still plenty of minutes for 35 tasks
 - Worth it for convenience
 
 **Option 2: Manual PROGRESS.md** (if worried about minutes)
+
 ```bash
 # Disable auto-update workflow:
 # Delete .github/workflows/update-progress.yml
@@ -119,32 +126,36 @@ Same workflow, but if you want to save minutes:
 
 ## 🎯 Feature Comparison
 
-| Feature | Free | Team ($4/user/mo) |
-|---------|------|-------------------|
-| Issues | ✅ Unlimited | ✅ Unlimited |
-| Projects | ✅ Unlimited | ✅ Unlimited |
-| Actions (public) | ✅ Unlimited | ✅ Unlimited |
-| Actions (private) | ✅ 2,000 min/mo | ✅ 3,000 min/mo |
-| Pull requests | ✅ Unlimited | ✅ Unlimited |
-| **Required reviewers** | ❌ No | ✅ Yes |
-| **Code owners** | ❌ No | ✅ Yes |
-| Branch protection | ✅ Basic | ✅ Advanced |
-| **Our project needs** | ✅ **All met!** | Not needed |
+| Feature                | Free            | Team ($4/user/mo) |
+| ---------------------- | --------------- | ----------------- |
+| Issues                 | ✅ Unlimited    | ✅ Unlimited      |
+| Projects               | ✅ Unlimited    | ✅ Unlimited      |
+| Actions (public)       | ✅ Unlimited    | ✅ Unlimited      |
+| Actions (private)      | ✅ 2,000 min/mo | ✅ 3,000 min/mo   |
+| Pull requests          | ✅ Unlimited    | ✅ Unlimited      |
+| **Required reviewers** | ❌ No           | ✅ Yes            |
+| **Code owners**        | ❌ No           | ✅ Yes            |
+| Branch protection      | ✅ Basic        | ✅ Advanced       |
+| **Our project needs**  | ✅ **All met!** | Not needed        |
 
 ## 💡 Free Tier Tips
 
 ### 1. Use Public Repo
+
 - Unlimited Actions minutes
 - Good for portfolio
 - Open source contribution
 
 ### 2. Optimize Workflows
+
 Already done! Our workflows are efficient:
+
 - Only run when needed
 - No unnecessary steps
 - Skip if no changes
 
 ### 3. Monitor Usage
+
 ```bash
 # Check Actions usage
 gh api /users/:username/settings/billing/actions
@@ -153,7 +164,9 @@ gh api /users/:username/settings/billing/actions
 ```
 
 ### 4. Local Development
+
 Most work happens locally:
+
 - `npm run dev` - No GitHub usage
 - `git commit` - No GitHub usage
 - Only PRs use Actions
@@ -161,24 +174,30 @@ Most work happens locally:
 ## 🚫 What You Can't Do (And Why It's OK)
 
 ### Required Reviewers
+
 **Limitation:** Can't force yourself to review PRs
 
 **Why it's OK:**
+
 - You're solo dev
 - Just review your own code before merging
 - Use PR checklist
 
 ### Code Owners
+
 **Limitation:** Can't auto-assign reviews
 
 **Why it's OK:**
+
 - You're the only owner
 - No need for auto-assignment
 
 ### Advanced Branch Protection
+
 **Limitation:** Can't require N approvals
 
 **Why it's OK:**
+
 - Basic protection still works
 - Prevents accidental pushes to main
 - Can still require status checks
@@ -186,6 +205,7 @@ Most work happens locally:
 ## ✨ Free Tier Wins
 
 What you GET for free:
+
 1. ✅ Full automation pipeline
 2. ✅ Professional project board
 3. ✅ Issue tracking
@@ -222,12 +242,14 @@ gh issue develop 1 --checkout
 ## 📈 Scaling Up (If Needed Later)
 
 If you outgrow free tier:
+
 - **GitHub Team:** $4/user/month
   - 3,000 Actions minutes
   - Required reviewers
   - More advanced features
 
 But for this project:
+
 - ✅ Free tier is perfect
 - ✅ All features work
 - ✅ No limitations hit
@@ -235,21 +257,25 @@ But for this project:
 ## 🆘 Troubleshooting Free Tier
 
 **"Workflow didn't run"**
+
 - Check Actions enabled
 - Check permissions (read/write)
 - Public repo = unlimited minutes
 
 **"Out of Actions minutes"**
+
 - Only possible on private repos
 - Check Settings → Billing
 - Switch to public or wait for reset
 
 **"Can't enable branch protection"**
+
 - Basic rules work on free
 - Advanced rules need paid plan
 - You don't need them for solo dev
 
 **"Automation not working"**
+
 - Verify `.github/workflows/` in repo
 - Check Actions tab for errors
 - Ensure permissions granted
@@ -257,12 +283,14 @@ But for this project:
 ## ✅ Bottom Line
 
 **For this Timer project on GitHub Free:**
+
 - ✅ Everything works perfectly
 - ✅ No feature limitations hit
 - ✅ Professional workflow
 - ✅ Zero cost
 
 **Recommendation:**
+
 1. Use **public repository**
 2. Enable all automations
 3. Create project board

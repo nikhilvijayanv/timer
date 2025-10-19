@@ -5,16 +5,19 @@ This guide will get you from zero to fully automated GitHub workflow in **5 minu
 ## ✅ Prerequisites
 
 1. **GitHub CLI installed** (you have this!)
+
    ```bash
    gh --version  # Should show version
    ```
 
 2. **Logged in to GitHub**
+
    ```bash
    gh auth status  # Should show "Logged in"
    ```
 
    If not logged in:
+
    ```bash
    gh auth login
    ```
@@ -30,6 +33,7 @@ This guide will get you from zero to fully automated GitHub workflow in **5 minu
 ```
 
 This will:
+
 1. ✅ Create GitHub repository
 2. ✅ Push all your code
 3. ✅ Create all 35 task issues
@@ -121,6 +125,7 @@ gh project list
 ```
 
 **Output shows:**
+
 - Overall progress (%)
 - Phase breakdown
 - Current work
@@ -166,13 +171,13 @@ Progress: [█░░░░░░░░░] 3%
 
 Located in `scripts/`:
 
-| Script | Purpose | When to Use |
-|--------|---------|-------------|
-| **setup-github.sh** | Complete setup | **First time only** |
-| **quick-start.sh** | Start next task | **Every day** |
-| **status.sh** | View progress | **Frequently** |
-| create-all-issues.sh | Create issues | If setup didn't run |
-| add-issues-to-project.sh | Add to board | Manual project setup |
+| Script                   | Purpose         | When to Use          |
+| ------------------------ | --------------- | -------------------- |
+| **setup-github.sh**      | Complete setup  | **First time only**  |
+| **quick-start.sh**       | Start next task | **Every day**        |
+| **status.sh**            | View progress   | **Frequently**       |
+| create-all-issues.sh     | Create issues   | If setup didn't run  |
+| add-issues-to-project.sh | Add to board    | Manual project setup |
 
 ## 💡 Tips
 
@@ -216,6 +221,7 @@ gh pr merge
 ## 🆘 Troubleshooting
 
 **"gh: command not found"**
+
 ```bash
 # Install GitHub CLI
 brew install gh  # macOS
@@ -223,21 +229,25 @@ brew install gh  # macOS
 ```
 
 **"Not logged in to GitHub"**
+
 ```bash
 gh auth login
 # Follow prompts
 ```
 
 **"Permission denied"**
+
 ```bash
 chmod +x scripts/*.sh
 ```
 
 **"Repository already exists"**
+
 - Setup script will detect and ask if you want to use it
 - Or delete and re-create: `gh repo delete username/timer`
 
 **"Can't create project"**
+
 - Projects v2 API may have restrictions
 - Create manually: https://github.com/username?tab=projects
 - Then run: `./scripts/add-issues-to-project.sh`
@@ -269,6 +279,7 @@ You're ready when you see:
 ---
 
 **Questions?** Check:
+
 - `scripts/README.md` - Script documentation
 - `docs/GITHUB_WORKFLOW.md` - Detailed workflow guide
 - `docs/GITHUB_FREE_SETUP.md` - Free tier specifics

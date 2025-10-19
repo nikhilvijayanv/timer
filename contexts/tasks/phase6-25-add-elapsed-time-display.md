@@ -4,12 +4,14 @@
 **Dependencies:** Task 19 (Timer components), Task 24 (Timer integration)
 
 ## Description
+
 Implement on-demand elapsed time calculation in the UI (no background intervals in main process) as specified in project requirements.
 
 ## Implementation Steps
 
 1. **Create time utilities hook**
    Create `src/hooks/useElapsedTime.ts`:
+
    ```typescript
    import { useState, useEffect } from 'react';
 
@@ -47,6 +49,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
 
 2. **Create time formatting utilities**
    Create `src/lib/timeFormat.ts`:
+
    ```typescript
    /**
     * Format seconds into human-readable time string
@@ -117,6 +120,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
 
 3. **Update CompactTimerView to use hook**
    Update `src/features/Timer/CompactTimerView.tsx`:
+
    ```typescript
    import { useElapsedTime } from '@/hooks/useElapsedTime';
    import { formatDurationCompact } from '@/lib/timeFormat';
@@ -185,6 +189,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
 
 4. **Update TodayEntries to use formatting**
    Update the formatDuration function in `TodayEntries.tsx`:
+
    ```typescript
    import { formatDurationShort } from '@/lib/timeFormat';
 
@@ -209,6 +214,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
 
 5. **Add tabular-nums font for time display**
    Update `src/index.css`:
+
    ```css
    /* Add tabular numbers for consistent time display */
    .tabular-nums {
@@ -218,6 +224,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
 
 6. **Test elapsed time accuracy**
    Create test component (temporary):
+
    ```typescript
    // src/components/TimeTest.tsx
    import { useElapsedTime } from '@/hooks/useElapsedTime';
@@ -245,6 +252,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
    - All time calculations are on-demand
 
 8. **Performance test**
+
    ```bash
    npm run dev
    ```
@@ -258,6 +266,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
    - Check no memory leaks (use browser DevTools)
 
 ## Acceptance Criteria
+
 - [ ] useElapsedTime hook calculates time correctly
 - [ ] Time formats display properly (MM:SS and H:MM:SS)
 - [ ] Time updates every second in UI
@@ -268,6 +277,7 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
 - [ ] Tabular nums font for consistent width
 
 ## Time Display Examples
+
 ```
 0 seconds:    0:00
 59 seconds:   0:59
@@ -278,20 +288,25 @@ Implement on-demand elapsed time calculation in the UI (no background intervals 
 ```
 
 ## Performance Targets
+
 - **CPU usage:** < 1% when idle with timer running
 - **Memory:** No memory growth over time
 - **Accuracy:** ±1 second (acceptable for UI)
 - **Update lag:** < 16ms (60fps)
 
 ## Architectural Note
+
 Per project requirements:
+
 > "No background setInterval; UI calculates elapsed time on demand"
 
 This means:
+
 - ✅ Renderer process: setInterval in React hooks (ok)
 - ✅ Main process tray: setInterval for display only (ok)
 - ❌ Main process timer: NO setInterval for time tracking
 
 ## References
+
 - project_init.md line 56 (No background setInterval requirement)
 - project_init.md lines 158-161 (Renderer components)

@@ -4,16 +4,19 @@
 **Dependencies:** Task 01 (Initialize project)
 
 ## Description
+
 Configure Vite to properly build for Electron, handle TypeScript compilation for the main process, and externalize native modules.
 
 ## Implementation Steps
 
 1. **Install vite plugin for electron**
+
    ```bash
    npm install --save-dev vite-plugin-electron vite-plugin-electron-renderer
    ```
 
 2. **Update vite.config.ts**
+
    ```typescript
    import { defineConfig } from 'vite';
    import react from '@vitejs/plugin-react';
@@ -31,10 +34,10 @@ Configure Vite to properly build for Electron, handle TypeScript compilation for
              build: {
                outDir: 'dist-electron',
                rollupOptions: {
-                 external: ['better-sqlite3'] // Will add in Task 03
-               }
-             }
-           }
+                 external: ['better-sqlite3'], // Will add in Task 03
+               },
+             },
+           },
          },
          {
            entry: 'electron/preload.ts',
@@ -43,23 +46,24 @@ Configure Vite to properly build for Electron, handle TypeScript compilation for
            },
            vite: {
              build: {
-               outDir: 'dist-electron'
-             }
-           }
-         }
+               outDir: 'dist-electron',
+             },
+           },
+         },
        ]),
-       renderer()
+       renderer(),
      ],
      resolve: {
        alias: {
-         '@': path.resolve(__dirname, './src')
-       }
+         '@': path.resolve(__dirname, './src'),
+       },
      },
-     base: './' // Important for Electron file:// protocol
+     base: './', // Important for Electron file:// protocol
    });
    ```
 
 3. **Create tsconfig.node.json for Electron**
+
    ```json
    {
      "compilerOptions": {
@@ -78,6 +82,7 @@ Configure Vite to properly build for Electron, handle TypeScript compilation for
 
 4. **Update main tsconfig.json**
    Add reference to tsconfig.node.json:
+
    ```json
    {
      "compilerOptions": {
@@ -107,6 +112,7 @@ Configure Vite to properly build for Electron, handle TypeScript compilation for
 
 5. **Update .gitignore**
    Add:
+
    ```
    dist-electron
    dist
@@ -122,6 +128,7 @@ Configure Vite to properly build for Electron, handle TypeScript compilation for
    Should open an Electron window showing Vite's React template
 
 ## Acceptance Criteria
+
 - [ ] vite.config.ts properly configured for Electron
 - [ ] TypeScript compilation works for both renderer and main process
 - [ ] `npm run dev` launches Electron app with hot reload
@@ -129,5 +136,6 @@ Configure Vite to properly build for Electron, handle TypeScript compilation for
 - [ ] Build outputs to dist-electron and dist directories
 
 ## References
+
 - [vite-plugin-electron](https://github.com/electron-vite/vite-plugin-electron)
 - project_init.md lines 11, 99, 122-125

@@ -19,11 +19,13 @@ gh issue create --title "Task 01: Initialize Electron + Vite + React" \
 ### 2. Create Branch from Issue
 
 **On GitHub:**
+
 - Go to the issue
 - Click "Create a branch" on right sidebar
 - Branch name: `task-01-initialize-electron`
 
 **Or via CLI:**
+
 ```bash
 # Create and checkout branch
 git checkout -b task-01-initialize-electron
@@ -33,6 +35,7 @@ git push -u origin task-01-initialize-electron
 ```
 
 **Branch Naming Convention:**
+
 ```
 task-{number}-{short-description}
 
@@ -63,6 +66,7 @@ git push
 ```
 
 **Commit Message Format:**
+
 ```
 Short summary (50 chars or less)
 
@@ -93,6 +97,7 @@ gh pr create --title "Task 01: Initialize Electron + Vite + React" \
 ```
 
 **PR Title Format:**
+
 ```
 Task XX: [Task Name]
 
@@ -102,6 +107,7 @@ Examples:
 ```
 
 **PR Body Must Include:**
+
 - `Closes #XX` - Links PR to issue (auto-closes on merge)
 - Changes made
 - Testing checklist
@@ -110,11 +116,13 @@ Examples:
 ### 5. Automated Actions
 
 When PR is created:
+
 - ✅ Issue gets "in-progress" label
 - ✅ Comment added to issue: "🔧 Work in progress: #PR"
 - ✅ Project board moves card to "In Progress"
 
 When PR is merged:
+
 - ✅ Issue automatically closed
 - ✅ Issue gets "completed" label
 - ✅ Comment added: "✅ Completed via #PR"
@@ -138,6 +146,7 @@ git checkout -b task-02-configure-vite
 ### Commit Linking
 
 **Link commits to issues:**
+
 ```bash
 git commit -m "Add database schema
 
@@ -145,6 +154,7 @@ Part of #10"
 ```
 
 **Close issues from commits:**
+
 ```bash
 git commit -m "Complete timer service
 
@@ -154,11 +164,13 @@ Closes #11"
 ### PR Linking Keywords
 
 Use these keywords in PR description to auto-close issues:
+
 - `Closes #XX`
 - `Fixes #XX`
 - `Resolves #XX`
 
 **Multiple issues:**
+
 ```markdown
 Closes #10
 Closes #11
@@ -168,6 +180,7 @@ Resolves #12
 ### Branch Protection (Optional)
 
 Set up in GitHub Settings → Branches:
+
 - ✅ Require PR before merging
 - ✅ Require status checks (linter, tests)
 - ✅ Require 1 approval (if collaborating)
@@ -182,6 +195,7 @@ Set up in GitHub Settings → Branches:
 3. Name it "Timer App Development"
 
 **Default Columns:**
+
 - 📋 **Backlog** - All pending tasks
 - 🏗️ **In Progress** - Currently working on
 - 🧪 **Testing** - Code complete, testing
@@ -190,18 +204,23 @@ Set up in GitHub Settings → Branches:
 ### Automation Rules
 
 **When issue created:**
+
 - Add to "Backlog"
 
 **When PR opened:**
+
 - Move linked issue to "In Progress"
 
 **When PR moved to draft:**
+
 - Keep in "In Progress"
 
 **When PR marked ready for review:**
+
 - Move to "Testing"
 
 **When PR merged:**
+
 - Move to "Done"
 - Close issue
 
@@ -219,6 +238,7 @@ Use the helper script:
 Auto-created labels:
 
 **Phases:**
+
 - `phase-1` - Project Setup
 - `phase-2` - Styling & UI
 - `phase-3` - Database & Services
@@ -228,12 +248,14 @@ Auto-created labels:
 - `phase-7` - Testing & Build
 
 **Status:**
+
 - `task` - Implementation task
 - `in-progress` - Work started
 - `completed` - Task done
 - `blocked` - Waiting on dependency
 
 **Priority:**
+
 - `priority-high` - Critical path
 - `priority-medium` - Important
 - `priority-low` - Nice to have
@@ -243,11 +265,13 @@ Auto-created labels:
 ### View Progress
 
 **On GitHub:**
+
 - Projects board shows visual progress
 - Insights → Burndown chart
 - Milestones show % complete
 
 **Locally:**
+
 ```bash
 # View PROGRESS.md (auto-updated)
 cat PROGRESS.md

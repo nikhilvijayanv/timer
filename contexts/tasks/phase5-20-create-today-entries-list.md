@@ -4,12 +4,14 @@
 **Dependencies:** Task 19 (Timer components), Task 16 (IPC bridge)
 
 ## Description
+
 Create a scrollable list component that displays all time entries logged today, with options to add notes and delete entries.
 
 ## Implementation Steps
 
 1. **Create TodayEntries component**
    Create `src/features/Timer/TodayEntries.tsx`:
+
    ```typescript
    import { useState, useEffect } from 'react';
    import { ScrollArea } from '@/components/ui/scroll-area';
@@ -234,6 +236,7 @@ Create a scrollable list component that displays all time entries logged today, 
 
 2. **Update Timer feature exports**
    Update `src/features/Timer/index.ts`:
+
    ```typescript
    export { CompactTimerView } from './CompactTimerView';
    export { QuickTaskEntry } from './QuickTaskEntry';
@@ -242,6 +245,7 @@ Create a scrollable list component that displays all time entries logged today, 
 
 3. **Add TodayEntries to App**
    Update `src/App.tsx`:
+
    ```typescript
    import { CompactTimerView, QuickTaskEntry, TodayEntries } from '@/features/Timer';
    import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -281,6 +285,7 @@ Create a scrollable list component that displays all time entries logged today, 
    ```
 
 4. **Test TodayEntries component**
+
    ```bash
    npm run dev
    ```
@@ -295,6 +300,7 @@ Create a scrollable list component that displays all time entries logged today, 
    - Scroll if more entries than fit in view
 
 ## Acceptance Criteria
+
 - [ ] Displays all of today's time entries
 - [ ] Shows task name, start/end time, duration
 - [ ] Entries are scrollable if list is long
@@ -306,6 +312,7 @@ Create a scrollable list component that displays all time entries logged today, 
 - [ ] Time formatted as 12-hour format
 
 ## UI Features
+
 - **Entry display:**
   - Task name (bold)
   - Duration badge
@@ -321,5 +328,6 @@ Create a scrollable list component that displays all time entries logged today, 
   - Entry count
 
 ## References
+
 - project_init.md lines 161 (TodayEntries component)
 - project_init.md lines 56 (No background setInterval)

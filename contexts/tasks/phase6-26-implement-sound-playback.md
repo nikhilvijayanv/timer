@@ -4,6 +4,7 @@
 **Dependencies:** Task 13 (SoundService placeholder), Task 24 (Timer integration)
 
 ## Description
+
 Implement sound playback in the renderer process using HTML5 Audio, playing start.wav when timer starts and stop.wav when timer stops.
 
 ## Implementation Steps
@@ -20,6 +21,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 2. **Configure Vite to handle audio assets**
    Update `vite.config.ts`:
+
    ```typescript
    export default defineConfig({
      // ... existing config ...
@@ -29,6 +31,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 3. **Create audio hook**
    Create `src/hooks/useSound.ts`:
+
    ```typescript
    import { useRef, useCallback, useEffect } from 'react';
 
@@ -63,6 +66,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 4. **Create SoundContext for app-wide sound management**
    Create `src/contexts/SoundContext.tsx`:
+
    ```typescript
    import React, { createContext, useContext, useState, useEffect } from 'react';
    import { useSound } from '@/hooks/useSound';
@@ -116,6 +120,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 5. **Wrap app with SoundProvider**
    Update `src/main.tsx`:
+
    ```typescript
    import { SoundProvider } from './contexts/SoundContext';
 
@@ -134,6 +139,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 6. **Integrate sounds into timer operations**
    Update `src/features/Timer/QuickTaskEntry.tsx`:
+
    ```typescript
    import { useAppSound } from '@/contexts/SoundContext';
 
@@ -168,6 +174,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 7. **Add sound to timer stop**
    Update `src/features/Timer/CompactTimerView.tsx`:
+
    ```typescript
    import { useAppSound } from '@/contexts/SoundContext';
 
@@ -194,6 +201,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 8. **Update global shortcut to play sounds**
    Update `electron/shortcuts.ts`:
+
    ```typescript
    function handleShortcutPressed(): void {
      console.log('Global shortcut pressed');
@@ -221,6 +229,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 9. **Add sound event listener in SoundContext**
    Update `src/contexts/SoundContext.tsx`:
+
    ```typescript
    export function SoundProvider({ children }: { children: React.ReactNode }) {
      // ... existing state ...
@@ -244,6 +253,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 
 10. **Update preload to expose sound:play event**
     Update `electron/preload.ts`:
+
     ```typescript
     const validChannels = [
       'timer:updated',
@@ -254,6 +264,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
     ```
 
 11. **Test sound playback**
+
     ```bash
     npm run dev
     ```
@@ -265,6 +276,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
     - Test with sound disabled in config
 
 ## Acceptance Criteria
+
 - [ ] start.wav plays when timer starts
 - [ ] stop.wav plays when timer stops
 - [ ] Sounds play via global shortcut
@@ -275,6 +287,7 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
 - [ ] Works on macOS
 
 ## Sound Specifications
+
 - **Format:** WAV (uncompressed)
 - **Sample rate:** 44.1kHz or 48kHz
 - **Duration:** 0.1-0.5 seconds (short)
@@ -284,13 +297,16 @@ Implement sound playback in the renderer process using HTML5 Audio, playing star
   - Stop: Downward tone, completion
 
 ## Troubleshooting
+
 - **No sound:** Check browser console for errors
 - **Sound too loud/quiet:** Edit WAV files in audio editor
 - **Playback blocked:** Some browsers block autoplay, but user interaction (button click) should work
 - **Build issues:** Ensure Vite config includes .wav in assetsInclude
 
 ## Alternative Sound Sources
+
 If you don't have audio files:
+
 1. **Generate online:**
    - https://www.beepbox.co/
    - https://www.bfxr.net/
@@ -309,5 +325,6 @@ If you don't have audio files:
    ```
 
 ## References
+
 - project_init.md lines 57, 152-156 (SoundService requirements)
 - project_init.md lines 206-212 (Audio files section)

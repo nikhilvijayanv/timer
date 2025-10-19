@@ -4,11 +4,13 @@
 **Dependencies:** Task 11 (TimerService created), Task 12 (Config service created)
 
 ## Description
+
 Implement the preload script that safely exposes Electron APIs to the renderer process using contextBridge, following security best practices.
 
 ## Implementation Steps
 
 1. **Update electron/preload.ts with full IPC bridge**
+
    ```typescript
    import { contextBridge, ipcRenderer } from 'electron';
 
@@ -46,11 +48,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
 
      // Event listeners
      on: (channel: string, callback: (...args: any[]) => void) => {
-       const validChannels = [
-         'timer:updated',
-         'config:updated',
-         'tray:clicked',
-       ];
+       const validChannels = ['timer:updated', 'config:updated', 'tray:clicked'];
 
        if (validChannels.includes(channel)) {
          const subscription = (_event: any, ...args: any[]) => callback(...args);
@@ -80,6 +78,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
 
 2. **Create TypeScript definitions for renderer**
    Create `src/types/electron.d.ts`:
+
    ```typescript
    export interface Task {
      id: number;
@@ -140,6 +139,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
 
 3. **Create IPC handlers in main process**
    Create `electron/ipcHandlers.ts`:
+
    ```typescript
    import { ipcMain, BrowserWindow } from 'electron';
    import { TimerService } from './services/TimerService';
@@ -209,6 +209,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
    ```
 
 4. **Register IPC handlers in main.ts**
+
    ```typescript
    import { registerIPCHandlers } from './ipcHandlers';
 
@@ -224,6 +225,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
 
 5. **Test IPC communication**
    In src/App.tsx, add test code:
+
    ```typescript
    import { useEffect, useState } from 'react';
 
@@ -266,6 +268,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
    ```
 
 6. **Run and verify IPC**
+
    ```bash
    npm run dev
    ```
@@ -276,6 +279,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
    - Test start/stop buttons work
 
 ## Acceptance Criteria
+
 - [ ] preload.ts exposes API via contextBridge
 - [ ] TypeScript definitions created for renderer
 - [ ] IPC handlers registered in main process
@@ -287,6 +291,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
 - [ ] No security warnings in console
 
 ## Security Checklist
+
 - ✓ nodeIntegration disabled
 - ✓ contextIsolation enabled
 - ✓ Using contextBridge (not window directly)
@@ -295,6 +300,7 @@ Implement the preload script that safely exposes Electron APIs to the renderer p
 - ✓ Preload script limits exposed APIs
 
 ## IPC Communication Flow
+
 ```
 Renderer (React)
   ↓ window.electron.timer.start()
@@ -308,5 +314,6 @@ Return result
 ```
 
 ## References
+
 - project_init.md lines 21, 150, 232-236 (IPC & security)
 - project_init.md lines 64-77 (WebPreferences config)

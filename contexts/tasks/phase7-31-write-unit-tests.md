@@ -4,11 +4,13 @@
 **Dependencies:** Task 11 (TimerService created)
 
 ## Description
+
 Write unit tests for the core TimerService functionality using Vitest to ensure database operations work correctly.
 
 ## Implementation Steps
 
 1. **Install Vitest and dependencies**
+
    ```bash
    npm install --save-dev vitest @vitest/ui
    npm install --save-dev @testing-library/react @testing-library/jest-dom
@@ -17,6 +19,7 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
 
 2. **Create Vitest config**
    Create `vitest.config.ts`:
+
    ```typescript
    import { defineConfig } from 'vitest/config';
    import react from '@vitejs/plugin-react';
@@ -39,6 +42,7 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
 
 3. **Create test setup file**
    Create `tests/setup.ts`:
+
    ```typescript
    import { expect, afterEach } from 'vitest';
    import { cleanup } from '@testing-library/react';
@@ -52,6 +56,7 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
 
 4. **Create test utilities for database**
    Create `tests/testDb.ts`:
+
    ```typescript
    import Database from 'better-sqlite3';
    import fs from 'fs';
@@ -101,6 +106,7 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
 
 5. **Write TimerService tests**
    Create `electron/services/TimerService.test.ts`:
+
    ```typescript
    import { describe, it, expect, beforeEach, afterAll } from 'vitest';
    import { createTestDatabase, cleanupTestDatabase } from '../../tests/testDb';
@@ -149,24 +155,28 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
          .run(endTime, duration, activeTimer.id);
 
        return testDb
-         .prepare(`
+         .prepare(
+           `
            SELECT te.*, t.name as task_name
            FROM time_entries te
            JOIN tasks t ON te.task_id = t.id
            WHERE te.id = ?
-         `)
+         `
+         )
          .get(activeTimer.id);
      },
 
      getActiveTimer() {
        return testDb
-         .prepare(`
+         .prepare(
+           `
            SELECT te.*, t.name as task_name
            FROM time_entries te
            JOIN tasks t ON te.task_id = t.id
            WHERE te.end_time IS NULL
            LIMIT 1
-         `)
+         `
+         )
          .get();
      },
    };
@@ -215,7 +225,9 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
          const timerId = TimerService.startTimer('Auto Created Task');
          expect(timerId).toBeGreaterThan(0);
 
-         const tasks = testDb.prepare('SELECT * FROM tasks WHERE name = ?').get('Auto Created Task');
+         const tasks = testDb
+           .prepare('SELECT * FROM tasks WHERE name = ?')
+           .get('Auto Created Task');
          expect(tasks).toBeDefined();
        });
      });
@@ -275,6 +287,7 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
    ```
 
 6. **Add test scripts to package.json**
+
    ```json
    {
      "scripts": {
@@ -287,6 +300,7 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
    ```
 
 7. **Run tests**
+
    ```bash
    npm test
    ```
@@ -300,6 +314,7 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
    ```
 
 ## Acceptance Criteria
+
 - [ ] Vitest configured and working
 - [ ] All TimerService methods tested
 - [ ] Tests for edge cases
@@ -308,12 +323,14 @@ Write unit tests for the core TimerService functionality using Vitest to ensure 
 - [ ] Fast test execution (< 5 seconds)
 
 ## Test Coverage Goals
+
 - **getOrCreateTask:** Create new, return existing, handle duplicates
 - **startTimer:** Start timer, prevent double-start, auto-create task
 - **stopTimer:** Stop timer, calculate duration, handle no active timer
 - **getActiveTimer:** Return active, return null, include task name
 
 ## Running Tests
+
 ```bash
 # Watch mode (during development)
 npm test
@@ -329,11 +346,13 @@ npm run test:coverage
 ```
 
 ## Future Test Additions
+
 - Integration tests for IPC
 - E2E tests with Playwright (next task)
 - Component tests for React components
 - Snapshot tests for UI
 
 ## References
+
 - [Vitest Documentation](https://vitest.dev/)
 - project_init.md line 228 (At minimum: basic unit test for TimerService)

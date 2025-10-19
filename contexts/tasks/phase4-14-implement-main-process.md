@@ -4,11 +4,13 @@
 **Dependencies:** Task 10, 11, 12 (Database, Timer Service, Config ready)
 
 ## Description
+
 Finalize the main.ts file to properly initialize the app as a menu bar application, hiding from dock and implementing proper lifecycle management.
 
 ## Implementation Steps
 
 1. **Update electron/main.ts with complete implementation**
+
    ```typescript
    import { app, BrowserWindow, Menu } from 'electron';
    import path from 'path';
@@ -121,6 +123,7 @@ Finalize the main.ts file to properly initialize the app as a menu bar applicati
    ```
 
 2. **Update package.json to set app name**
+
    ```json
    {
      "name": "timer",
@@ -130,6 +133,7 @@ Finalize the main.ts file to properly initialize the app as a menu bar applicati
    ```
 
 3. **Test app lifecycle**
+
    ```bash
    npm run dev
    ```
@@ -142,6 +146,7 @@ Finalize the main.ts file to properly initialize the app as a menu bar applicati
 
 4. **Create helper script to quit app**
    Add to package.json scripts:
+
    ```json
    {
      "scripts": {
@@ -156,6 +161,7 @@ Finalize the main.ts file to properly initialize the app as a menu bar applicati
    - Second instance should exit immediately
 
 ## Acceptance Criteria
+
 - [ ] App hidden from dock on macOS
 - [ ] Window doesn't show automatically
 - [ ] App doesn't quit when window closed
@@ -165,12 +171,14 @@ Finalize the main.ts file to properly initialize the app as a menu bar applicati
 - [ ] Window hides when clicking outside (on blur)
 
 ## macOS Menu Bar App Behavior
+
 - **Dock:** Hidden (not in dock, not in app switcher)
 - **Lifecycle:** Stays running when window closed
 - **Window:** Frameless popover (360x480, not resizable)
 - **Quit:** Only via explicit quit action
 
 ## Testing Commands
+
 ```bash
 # Start app
 npm run dev
@@ -183,5 +191,6 @@ ps aux | grep Electron
 ```
 
 ## References
+
 - project_init.md lines 47-51, 80-91 (Menu bar integration & behavior)
 - project_init.md lines 64-78 (Window configuration)

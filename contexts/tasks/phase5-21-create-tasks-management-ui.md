@@ -4,12 +4,14 @@
 **Dependencies:** Task 20 (TodayEntries created), Task 16 (IPC bridge)
 
 ## Description
+
 Create a UI for managing tasks - viewing all tasks, creating new ones, and quick access to recently used tasks.
 
 ## Implementation Steps
 
 1. **Create TaskList component**
    Create `src/features/Tasks/TaskList.tsx`:
+
    ```typescript
    import { useState, useEffect } from 'react';
    import { Button } from '@/components/ui/button';
@@ -143,6 +145,7 @@ Create a UI for managing tasks - viewing all tasks, creating new ones, and quick
 
 2. **Create QuickTaskSelector component**
    Create `src/features/Tasks/QuickTaskSelector.tsx`:
+
    ```typescript
    import { useState, useEffect } from 'react';
    import {
@@ -222,6 +225,7 @@ Create a UI for managing tasks - viewing all tasks, creating new ones, and quick
 
 3. **Update QuickTaskEntry to use QuickTaskSelector**
    Update `src/features/Timer/QuickTaskEntry.tsx`:
+
    ```typescript
    import { useState } from 'react';
    import { Button } from '@/components/ui/button';
@@ -304,12 +308,14 @@ Create a UI for managing tasks - viewing all tasks, creating new ones, and quick
 
 4. **Create Tasks feature exports**
    Create `src/features/Tasks/index.ts`:
+
    ```typescript
    export { TaskList } from './TaskList';
    export { QuickTaskSelector } from './QuickTaskSelector';
    ```
 
 5. **Test task management**
+
    ```bash
    npm run dev
    ```
@@ -322,6 +328,7 @@ Create a UI for managing tasks - viewing all tasks, creating new ones, and quick
    - Timer should start with that task name
 
 ## Acceptance Criteria
+
 - [ ] Can create new tasks
 - [ ] All tasks displayed in scrollable list
 - [ ] Recent tasks (5 most recent) shown in dropdown
@@ -332,12 +339,14 @@ Create a UI for managing tasks - viewing all tasks, creating new ones, and quick
 - [ ] UI responsive and smooth
 
 ## Task Management Features
+
 - **Create:** Input + button to add new task
 - **List:** Scrollable list of all tasks with creation date
 - **Quick select:** Dropdown with 5 most recent tasks
 - **Integration:** Selected task auto-fills timer start
 
 ## Future Enhancements (Not in this task)
+
 - Edit task names
 - Delete tasks
 - Archive/hide tasks
@@ -345,5 +354,6 @@ Create a UI for managing tasks - viewing all tasks, creating new ones, and quick
 - Task-specific settings
 
 ## References
+
 - project_init.md lines 32, 161 (Tasks feature)
 - project_init.md lines 25, 177-181 (Tasks table)

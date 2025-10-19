@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Settings as SettingsIcon } from "@/components/ui/icons";
-import type { AppConfig } from "@/types/electron";
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Settings as SettingsIcon } from '@/components/ui/icons';
+import type { AppConfig } from '@/types/electron';
 
 export function SettingsView() {
   const [config, setConfig] = useState<AppConfig | null>(null);
-  const [configPath, setConfigPath] = useState<string>("");
+  const [configPath, setConfigPath] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export function SettingsView() {
       const cfg = await window.electron.config.get();
       setConfig(cfg);
     } catch (error) {
-      console.error("Failed to load config:", error);
+      console.error('Failed to load config:', error);
     }
   }
 
@@ -29,23 +29,7 @@ export function SettingsView() {
       const path = await window.electron.config.getPath();
       setConfigPath(path);
     } catch (error) {
-      console.error("Failed to load config path:", error);
-    }
-  }
-
-  async function toggleSound() {
-    if (!config) return;
-
-    setIsSaving(true);
-    try {
-      const updated = await window.electron.config.update({
-        soundEnabled: !config.soundEnabled,
-      });
-      setConfig(updated);
-    } catch (error) {
-      console.error("Failed to update sound setting:", error);
-    } finally {
-      setIsSaving(false);
+      console.error('Failed to load config path:', error);
     }
   }
 
@@ -63,7 +47,7 @@ export function SettingsView() {
       });
       setConfig(updated);
     } catch (error) {
-      console.error("Failed to update theme:", error);
+      console.error('Failed to update theme:', error);
     } finally {
       setIsSaving(false);
     }
@@ -89,44 +73,16 @@ export function SettingsView() {
             <SettingsIcon className="h-5 w-5" />
             <CardTitle>Application Settings</CardTitle>
           </div>
-          <CardDescription>
-            Customize your timer app experience
-          </CardDescription>
+          <CardDescription>Customize your timer app experience</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium">Sound Effects</p>
-                <p className="text-xs text-muted-foreground">
-                  Play sounds when starting/stopping timers
-                </p>
-              </div>
-              <Button
-                variant={config.soundEnabled ? "default" : "outline"}
-                size="sm"
-                onClick={toggleSound}
-                disabled={isSaving}
-              >
-                {config.soundEnabled ? "Enabled" : "Disabled"}
-              </Button>
-            </div>
-          </div>
-
-          <div className="border-t pt-4">
-            <div className="flex items-center justify-between">
-              <div>
                 <p className="text-sm font-medium">Theme</p>
-                <p className="text-xs text-muted-foreground">
-                  Choose your preferred color scheme
-                </p>
+                <p className="text-xs text-muted-foreground">Choose your preferred color scheme</p>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={cycleTheme}
-                disabled={isSaving}
-              >
+              <Button variant="outline" size="sm" onClick={cycleTheme} disabled={isSaving}>
                 <Badge variant="secondary" className="capitalize">
                   {config.theme}
                 </Badge>
@@ -137,9 +93,7 @@ export function SettingsView() {
           <div className="border-t pt-4">
             <div className="space-y-2">
               <p className="text-sm font-medium">Global Shortcut</p>
-              <p className="text-xs text-muted-foreground">
-                Toggle timer with keyboard shortcut
-              </p>
+              <p className="text-xs text-muted-foreground">Toggle timer with keyboard shortcut</p>
               <code className="block text-xs bg-muted px-2 py-1 rounded">
                 {config.globalShortcut}
               </code>
@@ -159,9 +113,7 @@ export function SettingsView() {
           <p className="text-xs text-muted-foreground mb-2">
             Advanced settings can be edited directly in the config file:
           </p>
-          <code className="block text-xs bg-muted px-2 py-1 rounded break-all">
-            {configPath}
-          </code>
+          <code className="block text-xs bg-muted px-2 py-1 rounded break-all">{configPath}</code>
         </CardContent>
       </Card>
     </div>

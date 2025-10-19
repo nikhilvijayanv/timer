@@ -4,21 +4,25 @@
 **Dependencies:** None (first task)
 
 ## Description
+
 Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, React 19.0.0, and TypeScript. This creates the base application framework.
 
 ## Implementation Steps
 
 1. **Verify Node.js version**
+
    ```bash
    node --version  # Must be 20.19+ or 22.12+
    ```
 
 2. **Initialize project with npm**
+
    ```bash
    npm create vite@latest . -- --template react-ts
    ```
 
 3. **Install Electron and core dependencies**
+
    ```bash
    npm install --save-dev electron@^38.3.0
    npm install --save-dev electron-builder
@@ -26,6 +30,7 @@ Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, Re
    ```
 
 4. **Install React 19 (if not already at correct version)**
+
    ```bash
    npm install react@^19.0.0 react-dom@^19.0.0
    npm install --save-dev @types/react@^19.0.0 @types/react-dom@^19.0.0
@@ -33,6 +38,7 @@ Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, Re
 
 5. **Create basic package.json scripts**
    Add to package.json:
+
    ```json
    {
      "scripts": {
@@ -47,11 +53,13 @@ Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, Re
    ```
 
 6. **Create electron directory**
+
    ```bash
    mkdir electron
    ```
 
 7. **Create minimal electron/main.ts**
+
    ```typescript
    import { app, BrowserWindow } from 'electron';
    import path from 'path';
@@ -65,8 +73,8 @@ Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, Re
        webPreferences: {
          nodeIntegration: false,
          contextIsolation: true,
-         preload: path.join(__dirname, 'preload.js')
-       }
+         preload: path.join(__dirname, 'preload.js'),
+       },
      });
 
      if (process.env.NODE_ENV === 'development') {
@@ -86,6 +94,7 @@ Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, Re
    ```
 
 8. **Create minimal electron/preload.ts**
+
    ```typescript
    import { contextBridge } from 'electron';
 
@@ -95,6 +104,7 @@ Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, Re
    ```
 
 ## Acceptance Criteria
+
 - [ ] Node.js version is 20.19+ or 22.12+
 - [ ] package.json has correct dependencies for Electron 38, React 19, Vite 7
 - [ ] `electron/` directory exists with main.ts and preload.ts
@@ -102,6 +112,7 @@ Set up the foundational project structure using Electron 38.3.0, Vite 7.1.10, Re
 - [ ] `npm run dev` command exists (even if not fully working yet)
 
 ## References
+
 - [Electron Documentation](https://www.electronjs.org/docs/latest/)
 - [Vite Documentation](https://vite.dev/)
 - project_init.md lines 6-11, 122-125

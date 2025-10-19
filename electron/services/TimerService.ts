@@ -24,7 +24,9 @@ export class TimerService {
     const db = getDatabase();
 
     // Try to find existing task
-    const existing = db.prepare('SELECT id FROM tasks WHERE name = ?').get(taskName) as { id: number } | undefined;
+    const existing = db.prepare('SELECT id FROM tasks WHERE name = ?').get(taskName) as
+      | { id: number }
+      | undefined;
 
     if (existing) {
       return existing.id;
@@ -62,10 +64,14 @@ export class TimerService {
 
     // Create new time entry
     const startTime = Date.now();
-    const result = db.prepare(`
+    const result = db
+      .prepare(
+        `
       INSERT INTO time_entries (task_id, start_time)
       VALUES (?, ?)
-    `).run(taskId, startTime);
+    `
+      )
+      .run(taskId, startTime);
 
     console.log(`Timer started for task: ${taskName} (ID: ${taskId})`);
     return result.lastInsertRowid as number;
@@ -89,21 +95,27 @@ export class TimerService {
     const durationSeconds = Math.floor((endTime - activeTimer.start_time) / 1000);
 
     // Update the time entry
-    db.prepare(`
+    db.prepare(
+      `
       UPDATE time_entries
       SET end_time = ?, duration_seconds = ?
       WHERE id = ?
-    `).run(endTime, durationSeconds, activeTimer.id);
+    `
+    ).run(endTime, durationSeconds, activeTimer.id);
 
     console.log(`Timer stopped. Duration: ${durationSeconds}s`);
 
     // Return the completed entry
-    return db.prepare(`
+    return db
+      .prepare(
+        `
       SELECT te.*, t.name as task_name
       FROM time_entries te
       JOIN tasks t ON te.task_id = t.id
       WHERE te.id = ?
-    `).get(activeTimer.id) as TimeEntry;
+    `
+      )
+      .get(activeTimer.id) as TimeEntry;
   }
 
   /**
@@ -111,13 +123,17 @@ export class TimerService {
    */
   static getActiveTimer(): TimeEntry | null {
     const db = getDatabase();
-    const result = db.prepare(`
+    const result = db
+      .prepare(
+        `
       SELECT te.*, t.name as task_name
       FROM time_entries te
       JOIN tasks t ON te.task_id = t.id
       WHERE te.end_time IS NULL
       LIMIT 1
-    `).get() as TimeEntry | undefined;
+    `
+      )
+      .get() as TimeEntry | undefined;
 
     return result || null;
   }
@@ -131,13 +147,17 @@ export class TimerService {
     todayStart.setHours(0, 0, 0, 0);
     const startOfDay = todayStart.getTime();
 
-    return db.prepare(`
+    return db
+      .prepare(
+        `
       SELECT te.*, t.name as task_name
       FROM time_entries te
       JOIN tasks t ON te.task_id = t.id
       WHERE te.start_time >= ?
       ORDER BY te.start_time DESC
-    `).all(startOfDay) as TimeEntry[];
+    `
+      )
+      .all(startOfDay) as TimeEntry[];
   }
 
   /**
@@ -145,13 +165,17 @@ export class TimerService {
    */
   static getEntriesByDateRange(startDate: Date, endDate: Date): TimeEntry[] {
     const db = getDatabase();
-    return db.prepare(`
+    return db
+      .prepare(
+        `
       SELECT te.*, t.name as task_name
       FROM time_entries te
       JOIN tasks t ON te.task_id = t.id
       WHERE te.start_time >= ? AND te.start_time <= ?
       ORDER BY te.start_time DESC
-    `).all(startDate.getTime(), endDate.getTime()) as TimeEntry[];
+    `
+      )
+      .all(startDate.getTime(), endDate.getTime()) as TimeEntry[];
   }
 
   /**
@@ -170,5 +194,23 @@ export class TimerService {
     const db = getDatabase();
     const result = db.prepare('UPDATE time_entries SET notes = ? WHERE id = ?').run(notes, entryId);
     return result.changes > 0;
+  }
+
+  /**
+   * Get total time spent on a task (in seconds)
+   */
+  static getTotalTimeForTask(taskId: number): number {
+    const db = getDatabase();
+    const result = db
+      .prepare(
+        `
+      SELECT COALESCE(SUM(duration_seconds), 0) as total
+      FROM time_entries
+      WHERE task_id = ? AND end_time IS NOT NULL
+    `
+      )
+      .get(taskId) as { total: number };
+
+    return result.total;
   }
 }

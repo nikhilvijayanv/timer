@@ -5,6 +5,7 @@ Automation scripts for GitHub workflow and project management.
 ## 🚀 Initial Setup
 
 ### `setup-github.sh`
+
 **Complete automated GitHub setup**
 
 ```bash
@@ -12,6 +13,7 @@ Automation scripts for GitHub workflow and project management.
 ```
 
 Does everything:
+
 - ✅ Creates GitHub repository
 - ✅ Pushes code
 - ✅ Enables Actions
@@ -25,6 +27,7 @@ Does everything:
 ## 📋 Daily Workflow
 
 ### `quick-start.sh`
+
 **Start working on next task**
 
 ```bash
@@ -38,6 +41,7 @@ Does everything:
 - Ready to work!
 
 ### `status.sh`
+
 **View project progress**
 
 ```bash
@@ -45,6 +49,7 @@ Does everything:
 ```
 
 Shows:
+
 - Overall progress (%)
 - Phase breakdown
 - Current work
@@ -54,6 +59,7 @@ Shows:
 ## 🔧 Utilities
 
 ### `create-all-issues.sh`
+
 **Create all 35 issues**
 
 ```bash
@@ -63,6 +69,7 @@ Shows:
 Use if you already have a repo and just need issues.
 
 ### `add-issues-to-project.sh`
+
 **Add issues to project board**
 
 ```bash
@@ -144,6 +151,7 @@ gh pr merge
 ## 🔒 Requirements
 
 All scripts require:
+
 - GitHub CLI (`gh`) installed
 - Authenticated with GitHub (`gh auth login`)
 - Run from project root directory
@@ -151,6 +159,7 @@ All scripts require:
 ## 🎨 Features
 
 **setup-github.sh:**
+
 - Interactive prompts
 - Error checking
 - Color-coded output
@@ -158,12 +167,14 @@ All scripts require:
 - Idempotent (safe to re-run)
 
 **quick-start.sh:**
+
 - Auto-finds next task
 - Shows task details
 - Creates proper branch name
 - Helpful next steps
 
 **status.sh:**
+
 - Visual progress bars
 - Phase breakdown
 - Current work summary
@@ -179,19 +190,23 @@ All scripts require:
 ## 🆘 Troubleshooting
 
 **"gh: command not found"**
+
 - Install GitHub CLI: https://cli.github.com/
 
 **"Not logged in"**
+
 ```bash
 gh auth login
 ```
 
 **"Permission denied"**
+
 ```bash
 chmod +x scripts/*.sh
 ```
 
 **"Repository already exists"**
+
 - Setup script will ask if you want to use it
 - Or manually configure with other scripts
 

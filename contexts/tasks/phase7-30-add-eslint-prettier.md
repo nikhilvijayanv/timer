@@ -4,11 +4,13 @@
 **Dependencies:** All previous phases
 
 ## Description
+
 Set up code quality tools (ESLint and Prettier) to ensure consistent code style and catch potential issues.
 
 ## Implementation Steps
 
 1. **Install ESLint and Prettier**
+
    ```bash
    npm install --save-dev eslint prettier
    npm install --save-dev eslint-config-prettier eslint-plugin-prettier
@@ -17,6 +19,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    ```
 
 2. **Create .eslintrc.cjs**
+
    ```javascript
    module.exports = {
      root: true,
@@ -58,6 +61,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    ```
 
 3. **Create .prettierrc**
+
    ```json
    {
      "semi": true,
@@ -71,6 +75,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    ```
 
 4. **Create .prettierignore**
+
    ```
    dist
    dist-electron
@@ -82,6 +87,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    ```
 
 5. **Create .eslintignore**
+
    ```
    dist
    dist-electron
@@ -93,6 +99,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    ```
 
 6. **Add scripts to package.json**
+
    ```json
    {
      "scripts": {
@@ -105,6 +112,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    ```
 
 7. **Run linter and fix issues**
+
    ```bash
    npm run lint
    ```
@@ -115,6 +123,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    - Run `npm run lint:fix` to auto-fix formatting
 
 8. **Run Prettier**
+
    ```bash
    npm run format
    ```
@@ -123,6 +132,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
 
 9. **Set up VS Code integration (optional)**
    Create `.vscode/settings.json`:
+
    ```json
    {
      "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -130,16 +140,12 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
      "editor.codeActionsOnSave": {
        "source.fixAll.eslint": true
      },
-     "eslint.validate": [
-       "javascript",
-       "javascriptreact",
-       "typescript",
-       "typescriptreact"
-     ]
+     "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
    }
    ```
 
    Create `.vscode/extensions.json`:
+
    ```json
    {
      "recommendations": [
@@ -151,25 +157,28 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
    ```
 
 10. **Add pre-commit hook (optional)**
+
     ```bash
     npm install --save-dev husky lint-staged
     npx husky install
     ```
 
     Update package.json:
+
     ```json
     {
       "lint-staged": {
         "*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"],
         "*.{json,css,md}": ["prettier --write"]
-       },
-       "scripts": {
-         "prepare": "husky install"
-       }
-     }
+      },
+      "scripts": {
+        "prepare": "husky install"
+      }
+    }
     ```
 
     Create `.husky/pre-commit`:
+
     ```bash
     #!/bin/sh
     . "$(dirname "$0")/_/husky.sh"
@@ -178,6 +187,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
     ```
 
 ## Acceptance Criteria
+
 - [ ] ESLint configured and running
 - [ ] Prettier configured and running
 - [ ] No critical lint errors
@@ -187,6 +197,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
 - [ ] Pre-commit hooks working (optional)
 
 ## Common Lint Issues to Fix
+
 - Unused imports
 - Unused variables
 - Missing type annotations
@@ -195,6 +206,7 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
 - React hooks dependencies
 
 ## Prettier Formatting
+
 - Consistent indentation (2 spaces)
 - Single quotes
 - Semicolons
@@ -202,13 +214,16 @@ Set up code quality tools (ESLint and Prettier) to ensure consistent code style 
 - Trailing commas (ES5)
 
 ## Benefits
+
 - **Consistency:** All code looks the same
 - **Quality:** Catch bugs early
 - **Maintainability:** Easier to read and modify
 - **Best practices:** Enforce React/TypeScript patterns
 
 ## Optional: Strict Mode
+
 For stricter linting, update ESLint rules:
+
 ```javascript
 rules: {
   '@typescript-eslint/no-explicit-any': 'error',
@@ -218,6 +233,7 @@ rules: {
 ```
 
 ## References
+
 - [ESLint Documentation](https://eslint.org/docs/latest/)
 - [Prettier Documentation](https://prettier.io/docs/en/)
 - project_init.md line 229 (Add lint/prettier config)

@@ -4,6 +4,7 @@
 **Dependencies:** Task 03 (better-sqlite3 configured)
 
 ## Description
+
 Create the SQLite database schema with tasks and time_entries tables as specified in the project requirements.
 
 ## Implementation Steps
@@ -13,6 +14,7 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
 
 2. **Create database initialization module**
    Create `electron/database.ts`:
+
    ```typescript
    import Database from 'better-sqlite3';
    import path from 'path';
@@ -96,6 +98,7 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
 
 3. **Initialize database in electron/main.ts**
    Add to the top of main.ts:
+
    ```typescript
    import { app, BrowserWindow } from 'electron';
    import path from 'path';
@@ -115,6 +118,7 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
 
 4. **Create database helper functions**
    Add to `electron/database.ts`:
+
    ```typescript
    // Helper: Get all tasks
    export function getAllTasks() {
@@ -133,13 +137,17 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
    // Helper: Find active timer
    export function getActiveTimer() {
      const db = getDatabase();
-     return db.prepare(`
+     return db
+       .prepare(
+         `
        SELECT te.*, t.name as task_name
        FROM time_entries te
        JOIN tasks t ON te.task_id = t.id
        WHERE te.end_time IS NULL
        LIMIT 1
-     `).get();
+     `
+       )
+       .get();
    }
 
    // Helper: Get today's entries
@@ -149,13 +157,17 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
      todayStart.setHours(0, 0, 0, 0);
      const startOfDay = todayStart.getTime();
 
-     return db.prepare(`
+     return db
+       .prepare(
+         `
        SELECT te.*, t.name as task_name
        FROM time_entries te
        JOIN tasks t ON te.task_id = t.id
        WHERE te.start_time >= ?
        ORDER BY te.start_time DESC
-     `).all(startOfDay);
+     `
+       )
+       .all(startOfDay);
    }
    ```
 
@@ -165,6 +177,7 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
    - "Database tables created successfully"
 
    Verify database file exists:
+
    ```bash
    # macOS location
    ls -la ~/Library/Application\ Support/Electron/timer.db
@@ -172,15 +185,13 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
 
 6. **Create database inspection script (optional)**
    Create `scripts/inspect-db.js`:
+
    ```javascript
    const Database = require('better-sqlite3');
    const path = require('path');
    const os = require('os');
 
-   const dbPath = path.join(
-     os.homedir(),
-     'Library/Application Support/Electron/timer.db'
-   );
+   const dbPath = path.join(os.homedir(), 'Library/Application Support/Electron/timer.db');
 
    const db = new Database(dbPath, { readonly: true });
 
@@ -194,6 +205,7 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
    ```
 
 ## Acceptance Criteria
+
 - [ ] Database initializes on app startup
 - [ ] tasks table created with correct schema
 - [ ] time_entries table created with correct schema and foreign key
@@ -203,6 +215,7 @@ Create the SQLite database schema with tasks and time_entries tables as specifie
 - [ ] Database closes properly on app quit
 
 ## Schema Reference
+
 ```sql
 -- Active timer query:
 SELECT * FROM time_entries WHERE end_time IS NULL LIMIT 1;
@@ -216,5 +229,6 @@ ORDER BY te.start_time DESC;
 ```
 
 ## References
+
 - project_init.md lines 173-198 (SQLite Schema section)
 - project_init.md lines 10, 146-150 (TimerService requirements)

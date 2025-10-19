@@ -94,13 +94,17 @@ export function createTask(name: string) {
 // Helper: Find active timer
 export function getActiveTimer() {
   const db = getDatabase();
-  return db.prepare(`
+  return db
+    .prepare(
+      `
     SELECT te.*, t.name as task_name
     FROM time_entries te
     JOIN tasks t ON te.task_id = t.id
     WHERE te.end_time IS NULL
     LIMIT 1
-  `).get();
+  `
+    )
+    .get();
 }
 
 // Helper: Get today's entries
@@ -110,11 +114,15 @@ export function getTodayEntries() {
   todayStart.setHours(0, 0, 0, 0);
   const startOfDay = todayStart.getTime();
 
-  return db.prepare(`
+  return db
+    .prepare(
+      `
     SELECT te.*, t.name as task_name
     FROM time_entries te
     JOIN tasks t ON te.task_id = t.id
     WHERE te.start_time >= ?
     ORDER BY te.start_time DESC
-  `).all(startOfDay);
+  `
+    )
+    .all(startOfDay);
 }

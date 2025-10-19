@@ -4,12 +4,14 @@
 **Dependencies:** Task 07, 08, 09 (shadcn/ui, theme, icons configured), Task 16 (IPC bridge)
 
 ## Description
+
 Build the core timer UI components: CompactTimerView (shows active timer with stop button) and QuickTaskEntry (start new timer input).
 
 ## Implementation Steps
 
 1. **Create Timer context for state management**
    Create `src/contexts/TimerContext.tsx`:
+
    ```typescript
    import React, { createContext, useContext, useState, useEffect } from 'react';
 
@@ -77,6 +79,7 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
 
 2. **Create CompactTimerView component**
    Create `src/features/Timer/CompactTimerView.tsx`:
+
    ```typescript
    import { useState, useEffect } from 'react';
    import { Button } from '@/components/ui/button';
@@ -167,6 +170,7 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
 
 3. **Create QuickTaskEntry component**
    Create `src/features/Timer/QuickTaskEntry.tsx`:
+
    ```typescript
    import { useState } from 'react';
    import { Button } from '@/components/ui/button';
@@ -231,12 +235,14 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
 
 4. **Create Timer feature index**
    Create `src/features/Timer/index.ts`:
+
    ```typescript
    export { CompactTimerView } from './CompactTimerView';
    export { QuickTaskEntry } from './QuickTaskEntry';
    ```
 
 5. **Update App.tsx to use timer components**
+
    ```typescript
    import { CompactTimerView, QuickTaskEntry } from '@/features/Timer';
    import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -271,6 +277,7 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
 
 6. **Wrap App with TimerProvider**
    Update `src/main.tsx`:
+
    ```typescript
    import React from 'react';
    import ReactDOM from 'react-dom/client';
@@ -291,6 +298,7 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
    ```
 
 7. **Test timer components**
+
    ```bash
    npm run dev
    ```
@@ -304,6 +312,7 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
    - QuickTaskEntry should reappear
 
 ## Acceptance Criteria
+
 - [ ] TimerContext provides active timer state
 - [ ] CompactTimerView shows when timer is running
 - [ ] Elapsed time updates every second
@@ -315,6 +324,7 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
 - [ ] UI updates when timer starts/stops
 
 ## Component Behavior
+
 - **CompactTimerView:**
   - Only visible when timer is active
   - Shows task name and elapsed time
@@ -328,5 +338,6 @@ Build the core timer UI components: CompactTimerView (shows active timer with st
   - Enter key submits
 
 ## References
+
 - project_init.md lines 158-161 (Renderer components)
 - project_init.md lines 56 (No background setInterval - UI calculates on demand)

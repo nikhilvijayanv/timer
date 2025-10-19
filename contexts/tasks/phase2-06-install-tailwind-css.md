@@ -4,77 +4,79 @@
 **Dependencies:** Task 04 (Project structure created)
 
 ## Description
+
 Install Tailwind CSS 4.0 and configure it for the Electron React app with CSS-first configuration approach.
 
 ## Implementation Steps
 
 1. **Install Tailwind CSS 4 and dependencies**
+
    ```bash
    npm install -D tailwindcss@^4.0.0 postcss autoprefixer
    ```
 
 2. **Initialize Tailwind config**
+
    ```bash
    npx tailwindcss init -p
    ```
 
 3. **Update tailwind.config.js for Tailwind 4**
+
    ```javascript
    /** @type {import('tailwindcss').Config} */
    export default {
-     content: [
-       "./index.html",
-       "./src/**/*.{js,ts,jsx,tsx}",
-     ],
+     content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
      theme: {
        extend: {
          colors: {
-           border: "hsl(var(--border))",
-           input: "hsl(var(--input))",
-           ring: "hsl(var(--ring))",
-           background: "hsl(var(--background))",
-           foreground: "hsl(var(--foreground))",
+           border: 'hsl(var(--border))',
+           input: 'hsl(var(--input))',
+           ring: 'hsl(var(--ring))',
+           background: 'hsl(var(--background))',
+           foreground: 'hsl(var(--foreground))',
            primary: {
-             DEFAULT: "hsl(var(--primary))",
-             foreground: "hsl(var(--primary-foreground))",
+             DEFAULT: 'hsl(var(--primary))',
+             foreground: 'hsl(var(--primary-foreground))',
            },
            secondary: {
-             DEFAULT: "hsl(var(--secondary))",
-             foreground: "hsl(var(--secondary-foreground))",
+             DEFAULT: 'hsl(var(--secondary))',
+             foreground: 'hsl(var(--secondary-foreground))',
            },
            destructive: {
-             DEFAULT: "hsl(var(--destructive))",
-             foreground: "hsl(var(--destructive-foreground))",
+             DEFAULT: 'hsl(var(--destructive))',
+             foreground: 'hsl(var(--destructive-foreground))',
            },
            muted: {
-             DEFAULT: "hsl(var(--muted))",
-             foreground: "hsl(var(--muted-foreground))",
+             DEFAULT: 'hsl(var(--muted))',
+             foreground: 'hsl(var(--muted-foreground))',
            },
            accent: {
-             DEFAULT: "hsl(var(--accent))",
-             foreground: "hsl(var(--accent-foreground))",
+             DEFAULT: 'hsl(var(--accent))',
+             foreground: 'hsl(var(--accent-foreground))',
            },
            popover: {
-             DEFAULT: "hsl(var(--popover))",
-             foreground: "hsl(var(--popover-foreground))",
+             DEFAULT: 'hsl(var(--popover))',
+             foreground: 'hsl(var(--popover-foreground))',
            },
            card: {
-             DEFAULT: "hsl(var(--card))",
-             foreground: "hsl(var(--card-foreground))",
+             DEFAULT: 'hsl(var(--card))',
+             foreground: 'hsl(var(--card-foreground))',
            },
          },
          borderRadius: {
-           lg: "var(--radius)",
-           md: "calc(var(--radius) - 2px)",
-           sm: "calc(var(--radius) - 4px)",
+           lg: 'var(--radius)',
+           md: 'calc(var(--radius) - 2px)',
+           sm: 'calc(var(--radius) - 4px)',
          },
        },
      },
      plugins: [],
-   }
+   };
    ```
 
 4. **Update src/index.css with Tailwind directives and CSS variables**
+
    ```css
    @tailwind base;
    @tailwind components;
@@ -139,6 +141,7 @@ Install Tailwind CSS 4.0 and configure it for the Electron React app with CSS-fi
 
 5. **Verify Tailwind is working**
    Update src/App.tsx to test:
+
    ```typescript
    function App() {
      return (
@@ -164,6 +167,7 @@ Install Tailwind CSS 4.0 and configure it for the Electron React app with CSS-fi
    Should see styled content with Tailwind classes applied
 
 ## Acceptance Criteria
+
 - [ ] Tailwind CSS 4 installed and configured
 - [ ] CSS variables set up for theming (light/dark mode ready)
 - [ ] Tailwind directives in src/index.css
@@ -171,5 +175,6 @@ Install Tailwind CSS 4.0 and configure it for the Electron React app with CSS-fi
 - [ ] No console errors related to CSS
 
 ## References
+
 - [Tailwind CSS 4 Documentation](https://tailwindcss.com/docs)
 - project_init.md lines 8-9, 127-130

@@ -41,6 +41,7 @@
 ---
 
 **Checklist before merging:**
+
 - [ ] All acceptance criteria checked
 - [ ] Code reviewed (if collaborating)
 - [ ] Ready to merge

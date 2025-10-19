@@ -3,6 +3,7 @@
 **Primary Interface:** Menu bar application (lives in macOS menu bar, not dock)
 
 ## Architecture and Stack
+
 - **Framework:** Electron 38.3.0 (latest stable, Oct 2025)
 - **Frontend:** React 19.0.0 (stable, Dec 2024) with TypeScript
 - **UI Library:** shadcn/ui (Radix primitives, Tailwind CSS 4)
@@ -14,6 +15,7 @@
 - **Menu Bar:** Electron built-in Tray API (core feature)
 
 ## Project Structure
+
 ```
 root/
 │─ electron/              # All main process (Electron)
@@ -44,14 +46,15 @@ root/
 ```
 
 ## Features
+
 - **Menu bar integration** (core feature):
-    - Timer display in menu bar title (e.g., "⏱ 1:23:45")
-    - Click to open popover window below menu bar icon
-    - Hidden from dock (`app.dock.hide()`)
-    - Frameless popover window (360x480px, skipTaskbar)
+  - Timer display in menu bar title (e.g., "⏱ 1:23:45")
+  - Click to open popover window below menu bar icon
+  - Hidden from dock (`app.dock.hide()`)
+  - Frameless popover window (360x480px, skipTaskbar)
 - **Configurable global keyboard shortcut** (default: `CommandOrControl+Alt+Shift+.`)
-    - Configured via `config.json` in `app.getPath('userData')`
-    - Manually editable, app restart required
+  - Configured via `config.json` in `app.getPath('userData')`
+  - Manually editable, app restart required
 - Persistent storage of task, start_time, and log entries using SQLite
 - No background setInterval; UI calculates elapsed time on demand
 - System beep with two distinct audio files (start.wav, stop.wav)
@@ -61,23 +64,25 @@ root/
 ## macOS-Specific Architecture
 
 ### Menu Bar Window Configuration
+
 ```typescript
 const popoverWindow = new BrowserWindow({
   width: 360,
   height: 480,
   show: false,
-  frame: false,           // Frameless for native popover look
-  resizable: false,       // Fixed size
-  skipTaskbar: true,      // Don't show in app switcher
+  frame: false, // Frameless for native popover look
+  resizable: false, // Fixed size
+  skipTaskbar: true, // Don't show in app switcher
   webPreferences: {
     nodeIntegration: false,
     contextIsolation: true,
-    preload: path.join(__dirname, 'preload.js')
-  }
+    preload: path.join(__dirname, 'preload.js'),
+  },
 });
 ```
 
 ### Application Behavior
+
 ```typescript
 // Hide from dock
 app.dock.hide();
@@ -87,10 +92,13 @@ app.on('window-all-closed', (e) => e.preventDefault());
 
 // Only quit on explicit quit
 let willQuitApp = false;
-app.on('before-quit', () => { willQuitApp = true; });
+app.on('before-quit', () => {
+  willQuitApp = true;
+});
 ```
 
 ### Native Module Requirements
+
 - **better-sqlite3** requires native compilation for Electron 38
 - Use `electron-rebuild` in postinstall:
   ```json
@@ -103,6 +111,7 @@ app.on('before-quit', () => { willQuitApp = true; });
 **Location:** `~/Library/Application Support/[AppName]/config.json`
 
 **Default config.json:**
+
 ```json
 {
   "globalShortcut": "CommandOrControl+Alt+Shift+.",
@@ -114,56 +123,58 @@ app.on('before-quit', () => { willQuitApp = true; });
 ```
 
 **Usage:**
+
 - Users manually edit config.json
 - Restart app to apply changes
 - Invalid shortcuts fall back to default with notification
 
 ## Key Cloud Agent Actions
+
 1. **Setup electron + vite + react + typescript**
-    - Use Vite 7+ template with Electron 38
-    - Configure for Node.js 20.19+ or 22.12+ (required by Vite 7)
-    - Set up electron-rebuild for better-sqlite3
+   - Use Vite 7+ template with Electron 38
+   - Configure for Node.js 20.19+ or 22.12+ (required by Vite 7)
+   - Set up electron-rebuild for better-sqlite3
 
 2. **Add Tailwind CSS 4** (stable as of Jan 2025)
-    - Configure as per Tailwind 4 docs (CSS-first config)
-    - Set `src/` as content root
+   - Configure as per Tailwind 4 docs (CSS-first config)
+   - Set `src/` as content root
 
 3. **Initialize shadcn/ui** (`npx shadcn@latest init`)
-    - Add components: button, input, card, badge, dialog, tabs, dropdown-menu
-    - Configure for Tailwind 4 compatibility
+   - Add components: button, input, card, badge, dialog, tabs, dropdown-menu
+   - Configure for Tailwind 4 compatibility
 
 4. **Implement MenuBar module:**
-    - Create Tray with dynamic title (timer display)
-    - Position popover window below tray icon
-    - Handle show/hide on click and outside clicks
+   - Create Tray with dynamic title (timer display)
+   - Position popover window below tray icon
+   - Handle show/hide on click and outside clicks
 
 5. **Implement Config module:**
-    - Load config.json from userData path
-    - Create defaults if not exists
-    - Validate and register global shortcut
-    - Expose config via IPC
+   - Load config.json from userData path
+   - Create defaults if not exists
+   - Validate and register global shortcut
+   - Expose config via IPC
 
 6. **Implement TimerService:**
-    - Schema: tasks, time_entries tables (NO active_timer table)
-    - Find active timer: `SELECT * FROM time_entries WHERE end_time IS NULL`
-    - Log start/stop events by timestamp, duration
-    - Expose via preload.ts (IPC, contextBridge)
+   - Schema: tasks, time_entries tables (NO active_timer table)
+   - Find active timer: `SELECT * FROM time_entries WHERE end_time IS NULL`
+   - Log start/stop events by timestamp, duration
+   - Expose via preload.ts (IPC, contextBridge)
 
 7. **Implement SoundService:**
-    - Use HTML5 Audio in renderer with start.wav/stop.wav
-    - Load from assets folder
-    - Respect soundEnabled config
+   - Use HTML5 Audio in renderer with start.wav/stop.wav
+   - Load from assets folder
+   - Respect soundEnabled config
 
 8. **Renderer Components (Popover UI):**
-    - CompactTimerView (current running timer, stop button)
-    - QuickTaskEntry (start new timer)
-    - TodayEntries (scrollable list of today's logs)
-    - Menu button → open full window for Projects/Reports (future)
+   - CompactTimerView (current running timer, stop button)
+   - QuickTaskEntry (start new timer)
+   - TodayEntries (scrollable list of today's logs)
+   - Menu button → open full window for Projects/Reports (future)
 
 9. **Global Shortcut:**
-    - Register from config.json on startup
-    - Toggle timer (start if stopped, stop if running)
-    - Handle registration failures gracefully
+   - Register from config.json on startup
+   - Toggle timer (start if stopped, stop if running)
+   - Handle registration failures gracefully
 
 10. **Build for macOS using electron-builder:**
     - Target: macOS (dmg)
@@ -198,12 +209,14 @@ CREATE TABLE time_entries (
 **Note:** No `active_timer` table needed. Active timer is simply a time_entry with `end_time IS NULL`.
 
 ## shadcn/ui Install Example
+
 ```bash
 npx shadcn@latest init
 npx shadcn@latest add button input card badge dialog tabs dropdown-menu
 ```
 
 ## Audio Files
+
 - Place `start.wav` and `stop.wav` in `src/assets/`
 - Use HTML5 Audio in renderer process:
   ```typescript
@@ -212,6 +225,7 @@ npx shadcn@latest add button input card badge dialog tabs dropdown-menu
   ```
 
 ## macOS Build
+
 - Use electron-builder
 - Script in `package.json`: `"build:mac": "electron-builder --mac"`
 - Configuration:
@@ -225,25 +239,30 @@ npx shadcn@latest add button input card badge dialog tabs dropdown-menu
 - Optional: Add `--universal` flag for universal binary (Intel + Apple Silicon)
 
 ## Tests/Quality Gates
+
 - At minimum: basic unit test for TimerService and a Playwright test for timer flow
 - Add lint/prettier config for consistent code style
 - Test native module rebuild works correctly
 
 ## Security/IPC
+
 - Use contextBridge for all Electron API access
 - Disable nodeIntegration in BrowserWindow
 - Enable contextIsolation
 - Follow Electron security best practices
 
 ## Node.js Version Requirement
+
 **IMPORTANT:** Vite 7 requires Node.js 20.19+ or 22.12+ (Node 18 reached EOL in April 2025)
 
 Verify version before starting:
+
 ```bash
 node --version  # Must be 20.19+, 22.12+, or later
 ```
 
 ## Documentation Links
+
 - [Electron 38 docs](https://www.electronjs.org/docs/latest/)
 - [React 19 docs](https://react.dev/)
 - [Tailwind CSS 4 docs](https://tailwindcss.com/docs)
@@ -252,5 +271,6 @@ node --version  # Must be 20.19+, 22.12+, or later
 - [better-sqlite3 docs](https://github.com/WiseLibs/better-sqlite3)
 
 ## Author and Purpose
+
 Generated for use with Claude Code agent. Designated owner: [Your Name/Org Here].
 Target platform: macOS (initial focus).

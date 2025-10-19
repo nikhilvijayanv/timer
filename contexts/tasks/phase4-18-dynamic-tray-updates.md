@@ -4,12 +4,14 @@
 **Dependencies:** Task 15 (Menu bar created), Task 11 (TimerService)
 
 ## Description
+
 Add functionality to update the menu bar tray title to display the elapsed time when a timer is running (e.g., "⏱ 1:23:45").
 
 ## Implementation Steps
 
 1. **Create timer display utility**
    Create `electron/utils/timeFormat.ts`:
+
    ```typescript
    /**
     * Format seconds into HH:MM:SS or MM:SS
@@ -55,6 +57,7 @@ Add functionality to update the menu bar tray title to display the elapsed time 
 
 2. **Create tray update service**
    Create `electron/trayUpdater.ts`:
+
    ```typescript
    import { TimerService } from './services/TimerService';
    import { updateTrayTitle } from './menuBar';
@@ -115,6 +118,7 @@ Add functionality to update the menu bar tray title to display the elapsed time 
    ```
 
 3. **Start tray updates in main.ts**
+
    ```typescript
    import { startTrayUpdates, stopTrayUpdates } from './trayUpdater';
 
@@ -136,6 +140,7 @@ Add functionality to update the menu bar tray title to display the elapsed time 
    ```
 
 4. **Update shortcuts.ts to refresh tray**
+
    ```typescript
    import { refreshTrayDisplay } from './trayUpdater';
 
@@ -160,6 +165,7 @@ Add functionality to update the menu bar tray title to display the elapsed time 
 
 5. **Add IPC event to notify renderer of timer changes**
    Update `electron/ipcHandlers.ts`:
+
    ```typescript
    import { BrowserWindow } from 'electron';
    import { refreshTrayDisplay } from './trayUpdater';
@@ -198,6 +204,7 @@ Add functionality to update the menu bar tray title to display the elapsed time 
    ```
 
 6. **Test tray updates**
+
    ```bash
    npm run dev
    ```
@@ -212,6 +219,7 @@ Add functionality to update the menu bar tray title to display the elapsed time 
    Monitor CPU usage - the 1-second interval should be minimal impact
 
 ## Acceptance Criteria
+
 - [ ] Tray title shows elapsed time when timer running
 - [ ] Format is "⏱ MM:SS" for times under 1 hour
 - [ ] Format is "⏱ H:MM:SS" for times over 1 hour
@@ -222,6 +230,7 @@ Add functionality to update the menu bar tray title to display the elapsed time 
 - [ ] Tray updates immediately on start/stop
 
 ## Display Examples
+
 ```
 No timer:     Timer
 0-59 mins:    ⏱ 12:34
@@ -230,22 +239,26 @@ Long times:   ⏱ 12:34:56
 ```
 
 ## Performance Considerations
+
 - setInterval runs in main process (lightweight)
 - Only queries database once per second (fast with indexed queries)
 - String formatting is trivial CPU cost
 - Consider pausing updates when window is hidden (optimization for later)
 
 ## Alternative Implementations (Not for this task)
+
 - Event-driven updates (only when timer state changes)
 - Renderer-driven updates (send time to main process)
 - Use native timers instead of setInterval
 
 ## Future Enhancements (Not in this task)
+
 - Show task name in tray tooltip
 - Different icons for running vs stopped
 - Badge/notification dot on tray icon
 - Configurable update frequency
 
 ## References
+
 - project_init.md lines 48 (Timer display in menu bar title)
 - project_init.md lines 23, 136-140 (MenuBar module)

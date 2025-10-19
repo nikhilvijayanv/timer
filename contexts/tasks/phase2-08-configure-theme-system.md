@@ -4,12 +4,14 @@
 **Dependencies:** Task 06, 07 (Tailwind and shadcn/ui configured)
 
 ## Description
+
 Configure the theme system to support light/dark modes and establish base styling that matches the menu bar popover design requirements.
 
 ## Implementation Steps
 
 1. **Create theme context**
    Create `src/contexts/ThemeContext.tsx`:
+
    ```typescript
    import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -57,6 +59,7 @@ Configure the theme system to support light/dark modes and establish base stylin
    ```
 
 2. **Update src/main.tsx to include ThemeProvider**
+
    ```typescript
    import React from 'react';
    import ReactDOM from 'react-dom/client';
@@ -74,6 +77,7 @@ Configure the theme system to support light/dark modes and establish base stylin
    ```
 
 3. **Add popover-specific styles to index.css**
+
    ```css
    /* Menu bar popover window specific styles */
    body {
@@ -111,6 +115,7 @@ Configure the theme system to support light/dark modes and establish base stylin
    ```
 
 4. **Update App.tsx with proper container sizing**
+
    ```typescript
    import { Button } from "@/components/ui/button";
    import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -140,6 +145,7 @@ Configure the theme system to support light/dark modes and establish base stylin
 
 5. **Test theme switching**
    Add a theme toggle button temporarily to test:
+
    ```typescript
    import { useTheme } from "@/contexts/ThemeContext";
 
@@ -156,6 +162,7 @@ Configure the theme system to support light/dark modes and establish base stylin
    ```
 
 ## Acceptance Criteria
+
 - [ ] ThemeContext created and working
 - [ ] Theme persists across renders
 - [ ] Light and dark modes both render correctly
@@ -164,4 +171,5 @@ Configure the theme system to support light/dark modes and establish base stylin
 - [ ] No layout overflow or scrolling issues
 
 ## References
+
 - project_init.md lines 51, 64-78, 109-110

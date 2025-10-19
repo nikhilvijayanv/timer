@@ -4,12 +4,14 @@
 **Dependencies:** Task 21 (Tasks UI created)
 
 ## Description
+
 Create placeholder components for Projects and Reports features that will be implemented in future versions. These serve as navigation targets and structure for later development.
 
 ## Implementation Steps
 
 1. **Create Projects placeholder**
    Create `src/features/Projects/ProjectsView.tsx`:
+
    ```typescript
    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
    import { Folder } from '@/components/ui/icons';
@@ -45,6 +47,7 @@ Create placeholder components for Projects and Reports features that will be imp
 
 2. **Create Reports placeholder**
    Create `src/features/Reports/ReportsView.tsx`:
+
    ```typescript
    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
    import { BarChart3 } from '@/components/ui/icons';
@@ -81,24 +84,29 @@ Create placeholder components for Projects and Reports features that will be imp
 
 3. **Create feature exports**
    Create `src/features/Projects/index.ts`:
+
    ```typescript
    export { ProjectsView } from './ProjectsView';
    ```
 
    Create `src/features/Reports/index.ts`:
+
    ```typescript
    export { ReportsView } from './ReportsView';
    ```
 
 4. **Create README files for future development**
    Create `src/features/Projects/README.md`:
-   ```markdown
+
+   ````markdown
    # Projects Feature
 
    ## Purpose
+
    Allow users to organize time entries into projects for better organization and billing.
 
    ## Planned Features
+
    - **Project CRUD:** Create, read, update, delete projects
    - **Project Properties:**
      - Name
@@ -112,6 +120,7 @@ Create placeholder components for Projects and Reports features that will be imp
    - **Filtering:** View time entries by project
 
    ## Database Schema (Future)
+
    ```sql
    CREATE TABLE projects (
      id INTEGER PRIMARY KEY,
@@ -128,6 +137,7 @@ Create placeholder components for Projects and Reports features that will be imp
    ALTER TABLE time_entries ADD COLUMN project_id INTEGER REFERENCES projects(id);
    ALTER TABLE tasks ADD COLUMN project_id INTEGER REFERENCES projects(id);
    ```
+   ````
 
    ## UI Components
    - ProjectList
@@ -136,8 +146,10 @@ Create placeholder components for Projects and Reports features that will be imp
    - ProjectDetails (full view with time entries)
 
    ## Status
+
    🚧 Not yet implemented - placeholder UI in place
-   ```
+
+   ````
 
    Create `src/features/Reports/README.md`:
    ```markdown
@@ -179,19 +191,23 @@ Create placeholder components for Projects and Reports features that will be imp
 
    ## Status
    🚧 Not yet implemented - placeholder UI in place
-   ```
+   ````
 
 5. **Document future roadmap**
    Update main `CLAUDE.md`:
+
    ```markdown
    # Project Overview
+
    A macOS menu bar timer app built with Electron, React, shadcn/ui, and Tailwind CSS.
 
    ## Current Status
+
    ✅ Phase 1-5: Core timer functionality complete
    🚧 Phase 6-7: In progress
 
    ## Future Features
+
    - 📁 **Projects:** Organize time entries into billable projects
    - 📊 **Reports:** Analytics and insights on time data
    - 🔄 **Sync:** Cloud sync across devices
@@ -200,10 +216,12 @@ Create placeholder components for Projects and Reports features that will be imp
    - 📱 **Mobile companion:** View data on phone
 
    ## Roadmap
+
    See individual feature README files in `src/features/` for detailed plans.
    ```
 
 ## Acceptance Criteria
+
 - [ ] ProjectsView placeholder created
 - [ ] ReportsView placeholder created
 - [ ] Placeholders show "coming soon" message
@@ -212,6 +230,7 @@ Create placeholder components for Projects and Reports features that will be imp
 - [ ] Exports created for both features
 
 ## Placeholder Content
+
 - **Visual:** Large icon representing the feature
 - **Title:** Feature name
 - **Description:** Brief explanation
@@ -219,11 +238,13 @@ Create placeholder components for Projects and Reports features that will be imp
 - **Encouragement:** Let users know it's in development
 
 ## Design Consistency
+
 - Match existing app styling
 - Use shadcn/ui components
 - Center-aligned, friendly tone
 - Professional but approachable
 
 ## References
+
 - project_init.md lines 33-34, 59 (Projects and reporting view - future extension)
 - project_init.md lines 17-44 (Project structure includes Projects/ and Reports/)

@@ -51,6 +51,10 @@ export function registerIPCHandlers() {
     return TimerService.updateNotes(entryId, notes);
   });
 
+  ipcMain.handle('timer:getTotalTimeForTask', async (_event, taskId: number) => {
+    return TimerService.getTotalTimeForTask(taskId);
+  });
+
   // Task handlers
   ipcMain.handle('tasks:getAll', async () => {
     return TimerService.getAllTasks();

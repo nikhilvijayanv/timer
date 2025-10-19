@@ -4,11 +4,13 @@
 **Dependencies:** Task 12 (Config service), Task 15 (Menu bar created)
 
 ## Description
+
 Implement global keyboard shortcut functionality that toggles the timer (start if stopped, stop if running) based on config.json settings.
 
 ## Implementation Steps
 
 1. **Create electron/shortcuts.ts**
+
    ```typescript
    import { app, globalShortcut } from 'electron';
    import { getConfig } from './config';
@@ -112,6 +114,7 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
    ```
 
 2. **Update electron/main.ts to register shortcut**
+
    ```typescript
    import { registerGlobalShortcut, unregisterAllShortcuts } from './shortcuts';
 
@@ -135,6 +138,7 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
 
 3. **Add shortcut validation to config.ts**
    Update the `isValidShortcut` function if needed:
+
    ```typescript
    export function isValidShortcut(shortcut: string): boolean {
      // Electron accelerator format validation
@@ -144,9 +148,18 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
      if (parts.length < 2) return false;
 
      const validModifiers = [
-       'CommandOrControl', 'CmdOrCtrl', 'Command', 'Cmd',
-       'Control', 'Ctrl', 'Alt', 'Option', 'AltGr',
-       'Shift', 'Super', 'Meta'
+       'CommandOrControl',
+       'CmdOrCtrl',
+       'Command',
+       'Cmd',
+       'Control',
+       'Ctrl',
+       'Alt',
+       'Option',
+       'AltGr',
+       'Shift',
+       'Super',
+       'Meta',
      ];
 
      // Check if all parts except the last are valid modifiers
@@ -164,6 +177,7 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
 
 4. **Add IPC handler for shortcut management**
    Update `electron/ipcHandlers.ts`:
+
    ```typescript
    import { registerGlobalShortcut, getRegisteredShortcut } from './shortcuts';
 
@@ -186,6 +200,7 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
    ```
 
 5. **Update preload.ts to expose shortcut API**
+
    ```typescript
    const electronAPI = {
      // ... existing APIs ...
@@ -198,6 +213,7 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
    ```
 
 6. **Test global shortcut**
+
    ```bash
    npm run dev
    ```
@@ -210,6 +226,7 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
 
 7. **Test shortcut registration failure**
    Edit config.json with an invalid shortcut:
+
    ```json
    {
      "globalShortcut": "InvalidShortcut"
@@ -219,6 +236,7 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
    Restart app and verify it logs a warning
 
 ## Acceptance Criteria
+
 - [ ] Global shortcut registered on app start
 - [ ] Shortcut from config.json is used
 - [ ] Pressing shortcut toggles timer (start/stop)
@@ -228,18 +246,23 @@ Implement global keyboard shortcut functionality that toggles the timer (start i
 - [ ] Shortcut works even when app window is hidden
 
 ## Shortcut Format
+
 Electron accelerator format:
+
 - Modifiers: `CommandOrControl`, `Cmd`, `Ctrl`, `Alt`, `Shift`, `Super`
 - Keys: A-Z, 0-9, F1-F24, punctuation (`.`, `,`, `/`, etc.)
 - Format: `Modifier+Modifier+Key`
 
 Examples:
+
 - `CommandOrControl+Alt+Shift+.` (cross-platform)
 - `Command+Shift+T` (macOS)
 - `Ctrl+Alt+P` (Windows/Linux)
 
 ## Testing Different Shortcuts
+
 Try these shortcuts in config.json:
+
 ```json
 { "globalShortcut": "CommandOrControl+Shift+T" }
 { "globalShortcut": "Alt+Shift+Space" }
@@ -247,11 +270,13 @@ Try these shortcuts in config.json:
 ```
 
 ## Troubleshooting
+
 - **Shortcut doesn't work:** Check if another app is using it
 - **Registration fails:** Validate shortcut format
 - **Works inconsistently:** Make sure app is in focus or has accessibility permissions (macOS)
 
 ## References
+
 - project_init.md lines 52, 162-167 (Global shortcut requirements)
 - project_init.md lines 108, 117-119 (Config usage)
 - [Electron Accelerator](https://www.electronjs.org/docs/latest/api/accelerator)

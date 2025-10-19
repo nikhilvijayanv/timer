@@ -1,19 +1,22 @@
-import { useState, useEffect } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, ListTodo, FolderKanban, BarChart3, Settings } from "@/components/ui/icons";
-import { CompactTimerView } from "@/features/Timer/CompactTimerView";
-import { QuickTaskEntry } from "@/features/Timer/QuickTaskEntry";
-import { TodayEntries } from "@/features/Timer/TodayEntries";
-import { TaskManager } from "@/features/Tasks/TaskManager";
-import { ProjectsView } from "@/features/Projects/ProjectsView";
-import { ReportsView } from "@/features/Reports/ReportsView";
-import { SettingsView } from "@/features/Settings/SettingsView";
+import { useState, useEffect } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Clock, ListTodo, FolderKanban, BarChart3, Settings } from '@/components/ui/icons';
+import { CompactTimerView } from '@/features/Timer/CompactTimerView';
+import { QuickTaskEntry } from '@/features/Timer/QuickTaskEntry';
+import { TodayEntries } from '@/features/Timer/TodayEntries';
+import { TaskManager } from '@/features/Tasks/TaskManager';
+import { ProjectsView } from '@/features/Projects/ProjectsView';
+import { ReportsView } from '@/features/Reports/ReportsView';
+import { SettingsView } from '@/features/Settings/SettingsView';
 
 export function AppLayout() {
   const [refreshKey, setRefreshKey] = useState(0);
+  const [hasActiveTimer, setHasActiveTimer] = useState(false);
 
   // Listen for timer updates from main process
   useEffect(() => {
+    checkActiveTimer();
+
     const unsubscribe = window.electron.on('timer:updated', () => {
       handleTimerChange();
     });
@@ -23,9 +26,15 @@ export function AppLayout() {
     };
   }, []);
 
+  async function checkActiveTimer() {
+    const activeTimer = await window.electron.timer.getActive();
+    setHasActiveTimer(!!activeTimer);
+  }
+
   function handleTimerChange() {
     // Trigger refresh of components when timer starts/stops
     setRefreshKey((prev) => prev + 1);
+    checkActiveTimer();
   }
 
   return (
@@ -57,8 +66,8 @@ export function AppLayout() {
         <div className="flex-1 overflow-y-auto">
           <TabsContent value="timer" className="m-0 p-4 space-y-4">
             <CompactTimerView onStop={handleTimerChange} />
-            <QuickTaskEntry onStart={handleTimerChange} />
-            <TodayEntries refreshTrigger={refreshKey} />
+            {!hasActiveTimer && <QuickTaskEntry onStart={handleTimerChange} />}
+            <TodayEntries refreshTrigger={refreshKey} onTimerStart={handleTimerChange} />
           </TabsContent>
 
           <TabsContent value="tasks" className="m-0 p-4">

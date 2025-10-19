@@ -75,6 +75,7 @@ gh pr create --fill --body "Closes #1"
 ```
 
 **What happens automatically:**
+
 1. ✅ Issue gets labeled `in-progress` (GitHub Actions)
 2. ✅ Issue moves to "In Progress" column (Project automation)
 3. ✅ Comment added to issue (GitHub Actions)
@@ -87,6 +88,7 @@ gh pr merge
 ```
 
 **What happens automatically:**
+
 1. ✅ PR merges
 2. ✅ Issue auto-closes (because PR said "Closes #1")
 3. ✅ Issue labeled `completed` (GitHub Actions)
@@ -116,14 +118,14 @@ Actions that trigger movement:
 
 ## 🎯 Quick Reference
 
-| Action | Board Movement | Who Does It |
-|--------|---------------|-------------|
-| Add issue to project | → Todo | Manual or Auto |
-| Create branch (`gh issue develop`) | No movement | - |
-| Create PR mentioning issue | → In Progress | **Project Automation** |
-| Assign issue to yourself | → In Progress | **Project Automation** |
-| Merge PR | → Done | **Project Automation** |
-| Close issue | → Done | **Project Automation** |
+| Action                             | Board Movement | Who Does It            |
+| ---------------------------------- | -------------- | ---------------------- |
+| Add issue to project               | → Todo         | Manual or Auto         |
+| Create branch (`gh issue develop`) | No movement    | -                      |
+| Create PR mentioning issue         | → In Progress  | **Project Automation** |
+| Assign issue to yourself           | → In Progress  | **Project Automation** |
+| Merge PR                           | → Done         | **Project Automation** |
+| Close issue                        | → Done         | **Project Automation** |
 
 ---
 
@@ -181,16 +183,19 @@ After setting up automation, test it:
 ## 🆘 Troubleshooting
 
 **Automation not working?**
+
 - Make sure you saved the workflow settings
 - Refresh the project board page
 - Check if the trigger actually happened (PR created, issue closed, etc.)
 
 **Items not moving?**
+
 - Verify automation is ON (green toggle)
 - Check the automation rules match your actions
 - Try manually dragging one item to test
 
 **Wrong column?**
+
 - Multiple automations can conflict
 - Last automation rule wins
 - Manually drag to correct column
